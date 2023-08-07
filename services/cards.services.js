@@ -4,8 +4,8 @@ const { CustomError, ServiceReturn } = require('../customClass');
 class CardService {
     cardRepository = new CardRepository();
 
-    getCard = async ({ column_id, card_id }) => {
-        const findCardId = await this.cardRepository.cardFindOne({ column_id, card_id });
+    getCard = async (card_id) => {
+        const findCardId = await this.cardRepository.cardFindOne(card_id);
         if (!findCardId) throw new CustomError('해당하는 카드는 존재하지 않습니다.', 403);
 
         const Card = {
@@ -33,28 +33,51 @@ class CardService {
         return new ServiceReturn('카드 리스트를 성공적으로 불러왔습니다.', 200, cardList);
     };
 
-    createCard = async ({ user_id, column_id, title, content, color, worker, deadline }) => {
-        await this.cardRepository.createCard({ user_id, column_id, title, content, color, worker, deadline });
+    createCard = async ({ user_id, column_id, title, content, color, deadline }) => {
+        await this.cardRepository.createCard({ user_id, column_id, title, content, color, deadline });
 
         return new ServiceReturn('카드 등록이 정상적으로 완료되었습니다.', 200);
     };
 
-    updateCard = async ({ user_id, column_id, card_id, title, content, color, worker, deadline }) => {
-        const findCardId = await this.cardRepository.cardFindOne({
-            column_id,
-            card_id,
-        });
+    updateCard = async ({ user_id, card_id, title, content, color }) => {
+        const findCardId = await this.cardRepository.cardFindOne(card_id);
         if (!findCardId) throw new CustomError('해당하는 카드는 존재하지 않습니다.', 403);
 
         if (user_id === findCardId.user_id) throw new CustomError('작성한 사용자가 아닙니다.', 403);
 
-        await this.cardRepository.updateCard({ card_id, title, content, color, worker, deadline });
+        await this.cardRepository.updateCard({ card_id, title, content, color });
 
         return new ServiceReturn('카드 정보 수정이 정상적으로 완료되었습니다.', 200);
     };
 
-    deleteCard = async ({ user_id, column_id, card_id }) => {
-        const findCardId = await this.cardRepository.cardFindOne({ column_id, card_id });
+    movecolumn = async ({ user_id, column_id, card_id }) => {
+        const findCardId = await this.cardRepository.cardFindOne(card_id);
+        if (!findCardId) throw new CustomError('해당하는 카드는 존재하지 않습니다.', 403);
+
+        if (user_id === findCardId.user_id) throw new CustomError('작성한 사용자가 아닙니다.', 403);
+
+        await this.cardRepository.movecolumn({ card_id, column_id });
+        return new ServiceReturn('카드의 위치 이동이 완료되었습니다.', 200);
+    };
+
+    selectworker = async ({ user_id, card_id }) => {
+        const findCardId = await this.cardRepository.cardFindOne(card_id);
+        if (!findCardId) throw new CustomError('해당하는 카드는 존재하지 않습니다.', 403);
+
+        await this.cardRepository.selectworker({ user_id, card_id });
+        return new ServiceReturn('해당 카드의 담당으로 설정이 완료되었습니다.', 200);
+    };
+
+    moveposition = async ({ card_id, position }) => {
+        const findCardId = await this.cardRepository.cardFindOne(card_id);
+        if (!findCardId) throw new CustomError('해당하는 카드는 존재하지 않습니다.', 403);
+
+        await this.cardRepository.moveposition({ card_id, position });
+        return new ServiceReturn('해당 카드의 위치를 재설정했습니다.');
+    };
+
+    deleteCard = async ({ user_id, card_id }) => {
+        const findCardId = await this.cardRepository.cardFindOne(card_id);
         if (!findCardId) throw new CustomError('해당하는 카드 정보는 존재하지 않습니다.', 403);
 
         if (user_id === findCardId.user_id) throw new CustomError('작성한 사용자가 아닙니다.', 403);
