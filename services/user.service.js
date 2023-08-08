@@ -11,12 +11,6 @@ class UserService {
         return createUserData;
     };
 
-    findUserById = async (id) => {
-        const findUser = await this.userRepository.findUserById(id);
-
-        return findUser;
-    };
-
     loginUser = async (email, password) => {
         const user = await this.userRepository.findLoginUser(email);
         const pwConfirm = await bcrypt.compare(password, user.password);

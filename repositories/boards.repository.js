@@ -1,5 +1,6 @@
 const { Board } = require('../models');
 const { BoardUser } = require('../models');
+const { User } = require('../models');
 const { Op } = require('sequelize');
 
 class BoardRepository {
@@ -14,13 +15,13 @@ class BoardRepository {
     };
 
     findAllBoardsById = async (user_id) => {
-        const allBoards = await Board.findAll({ where: { user_id } });
+        const allBoards = await Board.findAll({ where: { user_id: user_id } });
 
         return allBoards;
     };
 
     findBoardById = async (boardId) => {
-        const board = await Board.findByPk(boardId);
+        const board = await Board.findOne({ where: { board_id: boardId } });
 
         return board;
     };
@@ -42,8 +43,14 @@ class BoardRepository {
         return updateBoardData;
     };
 
+    findUserByEmail = async (email) => {
+        const user = await User.findOne({ where: { email } });
+        return user;
+    };
+
     createBoardUser = async (user_id, board_id) => {
-        await BoardUser.create({ user_id, board_id });
+        const boardUser = await BoardUser.create({ user_id, board_id });
+        return boardUser;
     };
 }
 

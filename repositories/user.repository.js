@@ -14,15 +14,9 @@ class UserRepository {
         return createUserData;
     };
 
-    findUserById = async (id) => {
-        const user = await User.findByPk(id);
-
-        return user;
-    };
-
     findLoginUser = async (email) => {
         const user = await User.findOne({
-            where: { email },
+            where: { email: email },
         });
 
         return user;

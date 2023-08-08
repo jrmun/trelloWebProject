@@ -32,7 +32,7 @@ class BoardsController {
     getBoardById = async (req, res, next) => {
         const { boardId } = req.params;
         try {
-            const board = await this.boardService.findBoardById(boardId);
+            const board = await this.boardService.getBoardById(boardId);
 
             res.status(200).json({ data: board });
         } catch (error) {
@@ -77,6 +77,8 @@ class BoardsController {
 
             res.status(200).json({ message: '유저 초대 성공.' });
         } catch (error) {
+            console.log(error);
+
             res.status(500).json({ message: error.message });
         }
     };

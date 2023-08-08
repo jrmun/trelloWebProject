@@ -10,13 +10,6 @@ class UsersController {
         res.status(201).json({ data: createUserData });
     };
 
-    getUserById = async (req, res, next) => {
-        const { id } = req.params;
-        const user = await this.userService.findUserById(id);
-
-        res.status(200).json({ data: user });
-    };
-
     login = async (req, res, next) => {
         const { email, password } = req.body;
         try {

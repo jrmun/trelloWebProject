@@ -7,11 +7,11 @@ const boardsController = new BoardsController();
 const auth = require('../middlewares/auth');
 
 router.post('/board', auth, boardsController.createBoard);
-router.get('/board', boardsController.getBoards);
-router.get('/board/:boardId', boardsController.getBoardById);
+router.get('/board', auth, boardsController.getBoards);
+router.get('/board/:boardId', auth, boardsController.getBoardById);
 router.put('/board/:boardId', auth, boardsController.updateBoard);
 router.delete('/board/:boardId', auth, boardsController.deleteBoard);
 
-router.post('/board/:boardId/invite', boardsController.inviteBoard);
+router.post('/board/:boardId/invite', auth, boardsController.inviteBoard);
 
 module.exports = router;

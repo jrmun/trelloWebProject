@@ -54,13 +54,13 @@ class BoardService {
     };
 
     inviteBoard = async (boardId, email) => {
-        const invitedUser = await this.userRepository.findUserByEmail(email);
+        const invitedUser = await this.boardRepository.findUserByEmail(email);
         if (!invitedUser) throw new Error("User doesn't exist");
 
         const board = await this.boardRepository.findBoardById(boardId);
         if (!board) throw new Error("Board doesn't exist");
 
-        const inviteBoardData = await this.boardRepository.createBoardUser(invitedUser.userId, board.board_id);
+        const inviteBoardData = await this.boardRepository.createBoardUser(invitedUser.user_id, board.board_id);
 
         return inviteBoardData;
     };
