@@ -27,15 +27,6 @@ module.exports = {
                 },
                 onDelete: 'CASCADE',
             },
-            board_id: {
-                allowNull: false,
-                type: Sequelize.INTEGER,
-                references: {
-                    model: 'Boards',
-                    key: 'board_id',
-                },
-                onDelete: 'CASCADE',
-            },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE,
