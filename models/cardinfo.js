@@ -45,6 +45,7 @@ module.exports = (sequelize, DataTypes) => {
             worker: {
                 allowNull: false,
                 type: DataTypes.STRING,
+                defaultValue: '미지정',
             },
             deadline: {
                 allowNull: false,
