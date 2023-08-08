@@ -18,10 +18,20 @@ class CardRepository {
     };
 
     createCard = async ({ user_id, column_id, title, content, color, deadline }) => {
-        await sequelize.transaction(async (transaction) => {
-            const cardCreate = await Card.create({ user_id, column_id }, { transaction });
-            await CardInfo.create({ card_id: cardCreate.card_id, title, content, color, deadline }, { transaction });
-        });
+        const cardList = await CardInfo.findAll();
+        if (cardList) {
+            const maxCardPosition = await CardInfo.Max('position');
+            const position = maxCardPosition + 1;
+            return await sequelize.transaction(async (transaction) => {
+                const cardCreate = await Card.create({ user_id, column_id }, { transaction });
+                await CardInfo.create({ card_id: cardCreate.card_id, title, content, color, position, deadline }, { transaction });
+            });
+        } else {
+            return await sequelize.transaction(async (transaction) => {
+                const cardCreate = await Card.create({ user_id, column_id }, { transaction });
+                await CardInfo.create({ card_id: cardCreate.card_id, title, content, color, deadline }, { transaction });
+            });
+        }
     };
 
     updateCard = async ({ card_id, title, content, color }) => {
