@@ -26,7 +26,7 @@ class UserService {
             if (!pwConfirm) throw new Error('비밀번호를 확인해 주세요.');
         }
 
-        const token = jwt.sign({ userId: user.id }, process.env.COOKIE_SECRET);
+        const token = jwt.sign({ user_id: user.user_id }, process.env.COOKIE_SECRET);
 
         return token;
     };
