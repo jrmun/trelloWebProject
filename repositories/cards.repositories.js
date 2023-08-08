@@ -13,7 +13,7 @@ class CardRepository {
         return await Card.findAll({
             where: { column_id: column_id },
             include: { model: CardInfo, User },
-            order: [CardInfo, 'Position', 'DESC'],
+            order: [CardInfo, 'position', 'DESC'],
         });
     };
 

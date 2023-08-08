@@ -21,27 +21,3 @@ router.put('/cards/:card_id/moveposition', cardController.moveCardPosition);
 router.delete('/cards/:card_id', cardController.deleteCard);
 
 module.exports = router;
-
-const posts = await Post.findAll({
-    where,
-    limit: 10,
-    include: [
-        {
-            model: User,
-            attributes: ['id', 'nickname', 'profileImg'],
-        },
-        {
-            model: Comment,
-            include: [
-                {
-                    model: User,
-                    attributes: ['id', 'nickname', 'profileImg'],
-                },
-            ],
-        },
-    ],
-    order: [
-        ['createdAt', 'DESC'],
-        [Comment, 'createdAt', 'DESC'],
-    ],
-});

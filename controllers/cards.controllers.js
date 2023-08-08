@@ -64,6 +64,7 @@ class CardController {
             return res.status(500).json({ message: '알 수 없는 오류가 발생하였습니다.' });
         }
     };
+
     //카드 column 이동
     moveCardColumn = async () => {
         try {
@@ -79,6 +80,7 @@ class CardController {
             return res.status(500).json({ message: '알 수 없는 오류가 발생하였습니다.' });
         }
     };
+    
     //담당자 설정
     selectWorker = async () => {
         try {
