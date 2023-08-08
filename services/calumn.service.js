@@ -27,3 +27,4 @@ class ColumnService {
         return updateColumn;
     };
 }
+module.exports = ColumnService;
