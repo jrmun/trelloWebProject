@@ -6,6 +6,7 @@ window.onload = function () {
     const loginButton = document.querySelector('#loginbtn');
     const logoutButton = document.querySelector('#logoutbtn');
     const addBoardButton = document.querySelector('#addBoardBtn');
+    const UserListBtn = document.querySelector('#UserListBtn');
 
     // 로그인 모달 열기
     loginButton.addEventListener('click', function () {
@@ -158,6 +159,12 @@ window.onload = function () {
                 console.error('보드생성 실패:', error);
                 alert('보드생성에 실패하였습니다.');
             });
+    });
+
+    // 참여자 목록 버튼 클릭 시 유저 목록 모달 열기
+    UserListBtn.addEventListener('click', function () {
+        const UserListModal = new bootstrap.Modal(document.getElementById('UserListModal'));
+        UserListModal.show();
     });
 };
 
