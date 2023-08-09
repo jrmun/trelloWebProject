@@ -12,18 +12,7 @@ class BoardService {
     findAllBoardsById = async (user) => {
         const allBoards = await this.boardRepository.findAllBoardsById(user.user_id);
 
-        allBoards.sort((a, b) => {
-            return b.createdAt - a.createdAt;
-        });
-
-        return allBoards.map((board) => {
-            return {
-                board_name: board.board_name,
-                description: board.description,
-                createdAt: board.createdAt,
-                updatedAt: board.updatedAt,
-            };
-        });
+        return allBoards;
     };
 
     getBoardById = async (boardId) => {
