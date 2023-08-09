@@ -14,6 +14,9 @@ class ColumnRepository {
     };
 
     createColumn = async ({ board_id, user_id, column_name }) => {
+        console.log(board_id);
+        console.log(user_id);
+        console.log(column_name);
         const columnList = await Column.findAll({ where: { board_id: board_id } });
         if (columnList) {
             const maxColumnPosition = await Column.max('position');

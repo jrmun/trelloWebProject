@@ -22,7 +22,7 @@ class CardService {
 
     getCardList = async (column_id) => {
         const findCardList = await this.cardRepository.cardFindAll(column_id);
-
+        console.log(findCardList);
         const cardList = findCardList.map((card) => {
             return {
                 name: card.User.name,
@@ -73,7 +73,7 @@ class CardService {
         if (!findCardId) throw new CustomError('해당하는 카드는 존재하지 않습니다.', 403);
 
         await this.cardRepository.moveposition({ card_id, position });
-        return new ServiceReturn('해당 카드의 위치를 재설정했습니다.');
+        return new ServiceReturn('해당 카드의 위치를 재설정했습니다.', 200);
     };
 
     deleteCard = async ({ user_id, card_id }) => {

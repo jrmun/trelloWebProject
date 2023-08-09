@@ -1,6 +1,8 @@
 const UserRepository = require('../repositories/user.repository');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+require('dotenv').config();
+const env = process.env;
 
 class UserService {
     userRepository = new UserRepository();
@@ -20,7 +22,7 @@ class UserService {
             if (!pwConfirm) throw new Error('비밀번호를 확인해 주세요.');
         }
 
-        const token = jwt.sign({ user_id: user.user_id }, process.env.COOKIE_SECRET);
+        const token = jwt.sign({ user_id: user.user_id }, env.COOKIE_SECRET);
 
         return token;
     };

@@ -17,8 +17,8 @@ class ColumnController {
 
     createColumn = async (req, res, next) => {
         try {
-            const column_name = req.body;
-            const board_id = req.param;
+            const { column_name } = req.body;
+            const { board_id } = req.params;
             const user_id = res.locals.user.user_id;
             const { status, message, result } = await this.columnService.createColumn({ board_id, user_id, column_name });
             return res.status(status).json({ message, result });
