@@ -6,6 +6,7 @@ window.onload = function () {
     const loginButton = document.querySelector('#loginbtn');
     const logoutButton = document.querySelector('#logoutbtn');
     const addBoardButton = document.querySelector('#addBoardBtn');
+    const UserListBtn = document.querySelector('#UserListBtn');
 
     // 로그인 모달 열기
     loginButton.addEventListener('click', function () {
@@ -159,6 +160,12 @@ window.onload = function () {
                 alert('보드생성에 실패하였습니다.');
             });
     });
+
+    // 참여자 목록 버튼 클릭 시 유저 목록 모달 열기
+    UserListBtn.addEventListener('click', function () {
+        const UserListModal = new bootstrap.Modal(document.getElementById('UserListModal'));
+        UserListModal.show();
+    });
 };
 
 // 사용자 정보 확인하여 로그인 상태에 따라 버튼 표시
@@ -220,7 +227,7 @@ function loadUserBoards() {
                 // 조회한 보드 정보를 드롭다운 항목으로 추가
                 data.data.forEach((board) => {
                     const dropdownItem = document.createElement('li');
-                    dropdownItem.innerHTML = `<a class="dropdown-item" href="#" data-boardid="${board.board_id}">${board.board_id}: ${board.board_name}</a>`;
+                    dropdownItem.innerHTML = `<a class="dropdown-item" href="#" data-boardid="${board.board_id}">${board.board_name}</a>`;
                     dropdownMenu.appendChild(dropdownItem);
                 });
                 console.log('hello');
