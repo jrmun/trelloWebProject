@@ -45,9 +45,7 @@
             }
         </style>
 
-        <script src="./js/board.js"></script>
-        <!-- <script src="./js/board.js"></script> -->
-    </head>
+        <script src="./js/card.js"></script>
 
     <body>
         <header class="bg-light">
@@ -57,6 +55,7 @@
                 </h1>
                 <div class="button-container right-aligned-buttons">
                     <button type="button" class="btn btn-light" id="logoutbtn">로그아웃</button>
+                    <button type="button" class="btn btn-light ml-auto" id="addCardBtn">카드 추가</button>
                 </div>
             </div>
             <div class="dropdown">
@@ -69,13 +68,7 @@
                 >
                     Board
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="boardDropdown" id="boarditem">
-                    <li><a class="dropdown-item" href="#">보드 1</a></li>
-                    <li><a class="dropdown-item" href="#">보드 2</a></li>
-                    <li><a class="dropdown-item" href="#">보드 3</a></li>
-                    <!-- 추가적인 보드 항목들 -->
-                </ul>
-                <ul class="dropdown-menu" aria-labelledby="boardDropdown" id="columnitem">
+                <ul class="dropdown-menu" aria-labelledby="boardDropdown">
                     <li><a class="dropdown-item" href="#">보드 1</a></li>
                     <li><a class="dropdown-item" href="#">보드 2</a></li>
                     <li><a class="dropdown-item" href="#">보드 3</a></li>
@@ -84,10 +77,46 @@
             </div>
         </header>
 
-        <!-- 보드 페이지의 내용 -->
-        <div class="container">
-            <h1>보드 페이지</h1>
-            <p>보드 내용을 여기에 추가하세요.</p>
+        <div class="container col-xxl-8 px-4 py-5">
+            <div class="card storeCard m-3" id="carditem">
+                <div class="card-body">
+                  <h5 class="card-title">Card with an image on top</h5>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+              </div>
+        </div>
+       
+        <!-- 카드 추가 모달 -->
+        <div class="modal fade" id="addCardModal" tabindex="-1" aria-labelledby="addCardModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addCardModalLabel">카드 추가</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="addCardForm">
+                            <div class="mb-3">
+                                <label for="CardName" class="form-label">카드 이름</label>
+                                <input type="text" class="form-control" id="CardName" required />
+                            </div>
+                            <div class="mb-3">
+                                <label for="color" class="form-label">배경 색상</label>
+                                <input type="text" class="form-control" id="color" required />
+                            </div>
+                            <div class="mb-3">
+                                <label for="content" class="form-label">카드 설명</label>
+                                <textarea class="form-control" id="content" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="deadline" class="form-label">마감일 </label>
+                                <input type="date"  id="deadline"></input>
+                            </div>
+                            <button type="submit" class="btn btn-primary">추가하기</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Bootstrap JS and jQuery scripts -->

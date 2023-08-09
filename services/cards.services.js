@@ -25,9 +25,12 @@ class CardService {
         console.log(findCardList);
         const cardList = findCardList.map((card) => {
             return {
+                card_id: card.card_id,
                 name: card.User.name,
                 title: card.CardInfo.title,
                 worker: card.CardInfo.worker,
+                position: card.CardInfo.position,
+                deadline: card.CardInfo.deadline,
             };
         });
         return new ServiceReturn('카드 리스트를 성공적으로 불러왔습니다.', 200, cardList);
