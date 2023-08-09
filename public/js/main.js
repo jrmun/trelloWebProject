@@ -126,13 +126,22 @@ window.onload = function () {
         addBoardModal.show();
     });
 
+    // 스펙트럼 컬러 피커 초기화
+    const bgColorInput = document.getElementById('bgColorInput');
+    $(bgColorInput).spectrum({
+        // jQuery 객체로 감싸서 Spectrum 초기화
+        preferredFormat: 'hex',
+        showAlpha: false,
+    });
+
     // 보드추가 api 요청
     const addBoardForm = document.getElementById('addBoardForm');
     addBoardForm.addEventListener('submit', function (event) {
         event.preventDefault();
 
         const boardName = document.getElementById('boardName').value;
-        const bgColor = document.getElementById('bgColor').value;
+        const colorPickerInput = document.getElementById('bgColor');
+        const bgColor = colorPickerInput.value;
         const description = document.getElementById('description').value;
 
         const formData = {
@@ -223,12 +232,9 @@ function loadUserBoards() {
                     dropdownItem.innerHTML = `<a class="dropdown-item" href="#" data-boardid="${board.board_id}">${board.board_name}</a>`;
                     dropdownMenu.appendChild(dropdownItem);
                 });
-                console.log('hello');
 
                 // 보드 목록 선택 이벤트 처리
                 const boardDropdownItems = document.querySelectorAll('.dropdown-item');
-                console.log(boardDropdownItems);
-
                 boardDropdownItems.forEach((item) => {
                     item.addEventListener('click', function (event) {
                         console.log('click');
