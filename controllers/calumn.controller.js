@@ -1,4 +1,4 @@
-const ColumnService = require('../services/column.service');
+const ColumnService = require('../services/calumn.service');
 
 class ColumnController {
     columnService = new ColumnService();

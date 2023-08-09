@@ -15,9 +15,13 @@ class ColumnRepository {
 
         return column;
     };
+    findColumnById = async (column_id) => {
+        const column = await Column.findByPk(column_id);
+        return column;
+    };
 
-    updateColumn = async (column_name, board_id, user_id) => {
-        const columnData = await Column.update({ column_name }, { where: { board_id, user_id } });
+    updateColumn = async (column_id, column_name, board_id, user_id) => {
+        const columnData = await Column.update({ column_name }, { where: { column_id, board_id, user_id } });
         return columnData;
     };
 
