@@ -220,7 +220,7 @@ function loadUserBoards() {
                 // 조회한 보드 정보를 드롭다운 항목으로 추가
                 data.data.forEach((board) => {
                     const dropdownItem = document.createElement('li');
-                    dropdownItem.innerHTML = `<a class="dropdown-item" href="#" data-boardid="${board.board_id}">${board.board_id}: ${board.board_name}</a>`;
+                    dropdownItem.innerHTML = `<a class="dropdown-item" href="#" data-boardid="${board.board_id}">${board.board_name}</a>`;
                     dropdownMenu.appendChild(dropdownItem);
                 });
                 console.log('hello');

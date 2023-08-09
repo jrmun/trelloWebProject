@@ -38,6 +38,72 @@ window.onload = function () {
     logoElement.addEventListener('click', function () {
         window.location.href = 'index.html';
     });
+
+    // 보드 수정
+    const EditBoardButton = document.querySelector('#EditBoardbtn');
+
+    // 보드 수정 모달 열기
+    EditBoardButton.addEventListener('click', function () {
+        const EditBoardModal = new bootstrap.Modal(document.getElementById('EditBoardModal'));
+        EditBoardModal.show();
+    });
+
+    // 보드수정 api 요청
+    const editBoardForm = document.getElementById('editBoardForm');
+    editBoardForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const boardName = document.getElementById('boardName').value;
+        const bgColor = document.getElementById('bgColor').value;
+        const description = document.getElementById('description').value;
+
+        const formData = {
+            board_name: boardName,
+            bg_color: bgColor,
+            description: description,
+        };
+
+        fetch(`/board/${boardId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('보드 수정 성공:', data);
+                alert('보드가 수정되었습니다.');
+                location.reload();
+            })
+            .catch((error) => {
+                console.error('보드수정 실패:', error);
+                alert('보드수정에 실패하였습니다.');
+            });
+    });
+
+    // 보드 삭제 api 요청
+    const boardDltButton = document.querySelector('.boardDltBtn');
+    boardDltButton.addEventListener('click', function (event) {
+        event.preventDefault();
+
+        fetch(`/board/${boardId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('보드 삭제 성공:', data);
+                alert('보드가 삭제되었습니다.');
+                window.location.href = 'index.html';
+            })
+            .catch((error) => {
+                console.error('보드삭제 실패:', error);
+                alert('보드삭제에 실패하였습니다.');
+            });
+    });
 };
 
 function loadBoardContent(boardId) {
@@ -101,7 +167,7 @@ function loadUserBoards() {
                 // 조회한 보드 정보를 드롭다운 항목으로 추가
                 data.data.forEach((board) => {
                     const dropdownItem = document.createElement('li');
-                    dropdownItem.innerHTML = `<a class="dropdown-item" href="#" data-boardid="${board.board_id}">${board.board_id}: ${board.board_name}</a>`;
+                    dropdownItem.innerHTML = `<a class="dropdown-item" href="#" data-boardid="${board.board_id}">${board.board_name}</a>`;
                     dropdownMenu.appendChild(dropdownItem);
                 });
 

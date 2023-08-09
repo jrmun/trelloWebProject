@@ -44,6 +44,10 @@
     .ml-auto {
       margin-left: auto;
     }
+
+    .btn-custom-height {
+      height: 50%;
+    }
   </style>
 
   <script src="./js/board.js"></script>
@@ -82,10 +86,43 @@
         <div class="board-details p-4 border rounded shadow-sm bg-light mt-4">
           <div class="d-flex justify-content-between mb-2">
             <h3 id="boardName" class="mb-4">보드 이름</h3>
-            <p id="createdDate" class="mb-2 text-muted">만든 날짜: 날짜 정보</p>
-            <p id="updatedDate" class="mb-4 text-muted">업데이트 날짜: 날짜 정보</p>
+            <p id="createdDate" class="text-muted mt-2">만든 날짜: 날짜 정보</p>
+            <p id="updatedDate" class="text-muted mt-2">업데이트 날짜: 날짜 정보</p>
+            <button type="button" class="btn btn-outline-secondary btn-custom-height" id="EditBoardbtn">
+              보드 관리
+            </button>
           </div>
           <p id="boardDescription" class="mb-3">보드 설명을 여기에 추가하세요.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 보드 수정 모달 -->
+  <div class="modal fade" id="EditBoardModal" tabindex="-1" aria-labelledby="addBoardModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="EditBoardModalLabel">보드 관리</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="editBoardForm">
+            <div class="mb-3">
+              <label for="boardName" class="form-label">보드 이름</label>
+              <input type="text" class="form-control" id="boardName" required>
+            </div>
+            <div class="mb-3">
+              <label for="bgColor" class="form-label">배경 색상</label>
+              <input type="text" class="form-control" id="bgColor" required>
+            </div>
+            <div class="mb-3">
+              <label for="description" class="form-label">보드 설명</label>
+              <textarea class="form-control" id="description" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">수정완료</button>
+            <button type="button" class="btn btn-outline-danger boardDltBtn">보드삭제</button>
+          </form>
         </div>
       </div>
     </div>
