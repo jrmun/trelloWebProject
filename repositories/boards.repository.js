@@ -52,6 +52,19 @@ class BoardRepository {
         const boardUser = await BoardUser.create({ user_id, board_id });
         return boardUser;
     };
+
+    getBoadUsers = async (boardId) => {
+        const BoadUsers = await BoardUser.findAll({
+            where: { board_id: boardId },
+            include: [
+                {
+                    model: User,
+                    attributes: ['name'],
+                },
+            ],
+        });
+        return BoadUsers;
+    };
 }
 
 module.exports = BoardRepository;

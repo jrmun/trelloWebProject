@@ -53,6 +53,12 @@ class BoardService {
 
         return inviteBoardData;
     };
+
+    getBoadUsers = async (boardId) => {
+        const getBoadUsers = await this.boardRepository.getBoadUsers(boardId);
+        if (!getBoadUsers) throw new Error("getBoadUsers don't exist");
+        return getBoadUsers;
+    };
 }
 
 module.exports = BoardService;

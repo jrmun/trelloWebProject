@@ -82,6 +82,17 @@ class BoardsController {
             res.status(500).json({ message: error.message });
         }
     };
+
+    getBoadUsers = async (req, res, next) => {
+        const { boardId } = req.params;
+        try {
+            const BoadUsers = await this.boardService.getBoadUsers(boardId);
+            res.status(201).json({ data: BoadUsers });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: error.message });
+        }
+    };
 }
 
 module.exports = BoardsController;
