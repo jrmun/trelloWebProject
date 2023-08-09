@@ -21,7 +21,7 @@ class CardController {
         try {
             const { card_id } = req.params;
             const { status, message, result } = await this.cardService.getCard(card_id);
-            return res.status(status).json({ message, result });
+            return res.status(status).json({ status, message, result });
         } catch (error) {
             if (error.status) return res.status(error.status).json({ message: error.message });
             console.log(error);
@@ -36,7 +36,7 @@ class CardController {
             const { column_id } = req.params;
             const user_id = res.locals.user.user_id;
             const { status, message, result } = await this.cardService.createCard({ user_id, column_id, title, content, color, deadline });
-            return res.status(status).json({ message, result });
+            return res.status(status).json({ status, message, result });
         } catch (error) {
             if (error.status) return res.status(error.status).json({ message: error.message });
             console.log(error);
@@ -47,7 +47,7 @@ class CardController {
     //카드 상세 정보 변경
     updateCard = async (req, res, next) => {
         try {
-            const { title, content, color } = req.body;
+            const { title, content, color, deadline } = req.body;
             const { card_id } = req.params;
             const user_id = res.locals.user.user_id;
             const { status, message, result } = await this.cardService.updateCard({
@@ -56,8 +56,9 @@ class CardController {
                 title,
                 content,
                 color,
+                deadline,
             });
-            return res.status(status).json({ message, result });
+            return res.status(status).json({ status, message, result });
         } catch (error) {
             if (error.status) return res.status(error.status).json({ message: error.message });
             console.log(error);
@@ -73,7 +74,7 @@ class CardController {
             const { column_id } = req.body;
 
             const { status, message, result } = await this.cardService.movecolumn({ user_id, column_id, card_id });
-            return res.status(status).json({ message, result });
+            return res.status(status).json({ status, message, result });
         } catch (error) {
             if (error.status) return res.status(error.status).json({ message: error.message });
             console.log(error);
@@ -87,7 +88,7 @@ class CardController {
             const user_id = res.locals.user.user_id;
             const { card_id } = req.params;
             const { status, message, result } = await this.cardService.selectworker({ user_id, card_id });
-            return res.status(status).json({ message, result });
+            return res.status(status).json({ status, message, result });
         } catch (error) {
             if (error.status) return res.status(error.status).json({ message: error.message });
             console.log(error);
@@ -101,7 +102,7 @@ class CardController {
             const { card_id } = req.params;
             const { position } = req.body;
             const { status, message, result } = await this.cardService.moveposition({ card_id, position });
-            return res.status(status).json({ message, result });
+            return res.status(status).json({ status, message, result });
         } catch (error) {
             if (error.status) return res.status(error.status).json({ message: error.message });
             console.log(error);
@@ -115,7 +116,7 @@ class CardController {
             const user_id = res.locals.user.user_id;
             const { column_id, card_id } = req.params;
             const { status, message, result } = await this.cardService.deleteCard({ user_id, column_id, card_id });
-            return res.status(status).json({ message, result });
+            return res.status(status).json({ status, message, result });
         } catch (error) {
             if (error.status) return res.status(error.status).json({ message: error.message });
             console.log(error);

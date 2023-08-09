@@ -34,8 +34,8 @@ class CardRepository {
         }
     };
 
-    updateCard = async ({ card_id, title, content, color }) => {
-        await CardInfo.update({ title, content, color }, { where: { card_id: card_id } });
+    updateCard = async ({ card_id, title, content, color, deadline }) => {
+        await CardInfo.update({ title, content, color, deadline }, { where: { card_id: card_id } });
     };
 
     movecolumn = async ({ card_id, column_id }) => {
@@ -60,8 +60,8 @@ class CardRepository {
 
     deleteCard = async (card_id) => {
         await sequelize.transaction(async (transaction) => {
-            await Card.delete({ card_id: card_id }, { transaction });
-            await CardInfo.delete({ card_id: card_id }, { transaction });
+            await Card.destroy({ where: { card_id: card_id } }, { transaction });
+            await CardInfo.destroy({ where: { card_id: card_id } }, { transaction });
         });
     };
 }
