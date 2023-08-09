@@ -3,7 +3,7 @@ window.onload = function () {
     // URL에서 쿼리 파라미터 값 가져오기
     const urlParams = new URLSearchParams(window.location.search);
     //const columnId = urlParams.get('id');
-    const columnId = 6;
+    const columnId = 1;
     if (columnId) {
         loadCardItem(columnId);
     }
@@ -96,11 +96,11 @@ function loadCardItem(column_id) {
                     const cardhtml = `<div class="card storeCard m-3" style="background-color: ${card.color};">
                                             <div class="card-body" id="card" value="${card.card_id}">
                                             <div>
-                                            <h5 class="card-title" id="cardtitle">${card.title}</h5>
+                                            <h5 class="card-title" id="cardtitle" style="font-size:200%; font-weight: bold;" >${card.title}</h5>
                                             <h5 style="font-weight: bold;" >중요도 : ${card.position}</h5>
                                             </div>
-                                            <p class="card-text" id="carddeadline">${card.deadline}</p>
-                                            <p class="card-text">${card.worker}</p>
+                                            <p class="card-text" id="carddeadline">마감일 : ${card.deadline}</p>
+                                            <p class="card-text">담당자 : ${card.worker}</p>
                                             </div>
                                             <div>
                                             <button type="submit" class="btn btn-primary" id="selectworker" value="${card.card_id}">담당하기</button>
@@ -245,6 +245,6 @@ function loadCardItem(column_id) {
             }
         })
         .catch((error) => {
-            console.error('보드 조회 실패:', error);
+            console.error('카드 조회 실패:', error);
         });
 }
