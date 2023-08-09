@@ -5,7 +5,7 @@ class ColumnController {
 
     getColumnList = async (req, res, next) => {
         try {
-            const board_id = req.param;
+            const { board_id } = req.params;
             const { status, message, result } = await this.columnService.getColumnList(board_id);
             return res.status(status).json({ message, result });
         } catch (error) {
@@ -30,8 +30,8 @@ class ColumnController {
     };
     updateColumn = async (req, res, next) => {
         try {
-            const name = req.body;
-            const column_id = req.param;
+            const { name } = req.body;
+            const { column_id } = req.params;
             const { status, message, result } = await this.columnService.updateColumn({ column_id, name });
             return res.status(status).json({ message, result });
         } catch (error) {
@@ -42,7 +42,7 @@ class ColumnController {
     };
     deleteColumn = async (req, res, next) => {
         try {
-            const column_id = req.param;
+            const { column_id } = req.params;
             const { status, message, result } = await this.columnService.deleteColumn(column_id);
             return res.status(status).json({ message, result });
         } catch (error) {
@@ -53,8 +53,8 @@ class ColumnController {
     };
     moveColumn = async (req, res, next) => {
         try {
-            const position = req.body;
-            const column_id = req.param;
+            const { position } = req.body;
+            const { column_id } = req.params;
             const { status, message, result } = await this.columnService.moveColumn({ column_id, position });
             return res.status(status).json({ message, result });
         } catch (error) {
