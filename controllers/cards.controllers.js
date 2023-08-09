@@ -4,7 +4,7 @@ class CardController {
     cardService = new CardService();
 
     //해당 column에 대한 모든 카드 리스트
-    getCardList = async () => {
+    getCardList = async (req, res, next) => {
         try {
             const column_id = req.param;
             const { status, message, result } = await this.cardService.getCardList(column_id);
@@ -17,7 +17,7 @@ class CardController {
     };
 
     //카드 Id에 관한 카드 상세 정보
-    getCard = async () => {
+    getCard = async (req, res, next) => {
         try {
             const { card_id } = req.param;
             const { status, message, result } = await this.cardService.getCard(card_id);
@@ -30,7 +30,7 @@ class CardController {
     };
 
     //카드 생성
-    createCard = async () => {
+    createCard = async (req, res, next) => {
         try {
             const { title, content, color, deadline } = req.body;
             const column_id = req.param;
@@ -45,7 +45,7 @@ class CardController {
     };
 
     //카드 상세 정보 변경
-    updateCard = async () => {
+    updateCard = async (req, res, next) => {
         try {
             const { title, content, color } = req.body;
             const { card_id } = req.param;
@@ -66,7 +66,7 @@ class CardController {
     };
 
     //카드 column 이동
-    moveCardColumn = async () => {
+    moveCardColumn = async (req, res, next) => {
         try {
             const { user_id } = res.locals.user;
             const { card_id } = req.param;
@@ -80,9 +80,9 @@ class CardController {
             return res.status(500).json({ message: '알 수 없는 오류가 발생하였습니다.' });
         }
     };
-    
+
     //담당자 설정
-    selectWorker = async () => {
+    selectWorker = async (req, res, next) => {
         try {
             const { user_id } = res.locals.user;
             const { card_id } = req.param;
@@ -97,7 +97,7 @@ class CardController {
     };
 
     //카드 위치 설정
-    moveCardPosition = async () => {
+    moveCardPosition = async (req, res, next) => {
         try {
             const { card_id } = req.param;
             const { position } = req.body;
@@ -111,7 +111,7 @@ class CardController {
     };
 
     //카드 삭제
-    deleteCard = async () => {
+    deleteCard = async (req, res, next) => {
         try {
             const { user_id } = res.locals.user;
             const { column_id, card_id } = req.param;
