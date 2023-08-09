@@ -54,15 +54,12 @@
 <body>
   <header class="bg-light">
     <div class="container header-container">
-
       <h1 class="text-center">
         <span class="text-warning font-weight-bold text-uppercase trello-logo">trolley</span>
       </h1>
-      <div class="button-container right-aligned-buttons">
-        <button type="button" class="btn btn-light" id="logoutbtn">
-          로그아웃
-        </button>
-      </div>
+      <button type="button" class="btn btn-light" id="logoutbtn">
+        로그아웃
+      </button>
     </div>
     <div class="dropdown">
       <button class="btn btn-link text-secondary dropdown-toggle dropdown-button" type="button" id="boardDropdown"
@@ -80,8 +77,18 @@
 
   <!-- 보드 페이지의 내용 -->
   <div class="container">
-    <h1>보드 페이지</h1>
-    <p>보드 내용을 여기에 추가하세요.</p>
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <div class="board-details p-4 border rounded shadow-sm bg-light mt-4">
+          <div class="d-flex justify-content-between mb-2">
+            <h3 id="boardName" class="mb-4">보드 이름</h3>
+            <p id="createdDate" class="mb-2 text-muted">만든 날짜: 날짜 정보</p>
+            <p id="updatedDate" class="mb-4 text-muted">업데이트 날짜: 날짜 정보</p>
+          </div>
+          <p id="boardDescription" class="mb-3">보드 설명을 여기에 추가하세요.</p>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Bootstrap JS and jQuery scripts -->
