@@ -258,7 +258,7 @@ function renderColumnData(data) {
         const column_id = columnData['column_id'];
 
         const temp_html = `<div id="list" class="board-details p-4 border rounded shadow-sm bg-light mt-4">
-        <button type="button" class="btn btn-outline-secondary btn-custom-height" id='editColumnBtn')>칼럼수정</button> 
+        <button type="button" class="btn btn-outline-secondary btn-custom-height" id='editColumnButton' onclick=editColumn(${column_id})>칼럼수정</button> 
         <div class="d-flex justify-content-between mb-2">
             <h3 class="list-title" id="columnName">${column_name}</h3>
             <ul class="list-items"></ul>
@@ -266,13 +266,19 @@ function renderColumnData(data) {
     </div>`;
         columnListDiv.insertAdjacentHTML('beforeend', temp_html);
     });
-    const editColumnButton = document.querySelector('#editColumnBtn');
-    // 칼럼 수정 모달 열기
-    editColumnButton.addEventListener('click', function () {
-        const editColumnModal = new bootstrap.Modal(document.getElementById('editColumnModal'));
-        editColumnModal.show();
-    });
+    // const editColumnButton = document.querySelector('#editColumnBtn');
+    // // 칼럼 수정 모달 열기
+    // editColumnButton.addEventListener('click', function () {
+    //     const editColumnModal = new bootstrap.Modal(document.getElementById('editColumnModal'));
+    //     editColumnModal.show();
+    // });
     // 칼럼수정 api 요청
+}
+
+function editColumn(column_id) {
+    const editColumnModal = new bootstrap.Modal(document.getElementById('editColumnModal'));
+    editColumnModal.show();
+
     const addColumnForm = document.getElementById('editColumnForm');
     addColumnForm.addEventListener('submit', function (event) {
         event.preventDefault();
@@ -293,7 +299,7 @@ function renderColumnData(data) {
             .then((response) => response.json())
             .then((data) => {
                 console.log('칼럼 생성 성공:', data);
-                alert('칼럼 생성되었습니다.');
+                alert('칼럼 수정되었습니다.');
                 location.reload();
             })
             .catch((error) => {
@@ -302,8 +308,6 @@ function renderColumnData(data) {
             });
     });
 }
-
-function editColumn(column_id) {}
 // 보드 페이지로 이동
 function navigateToBoardPage(selectedBoard) {
     window.location.href = `board.html?id=${selectedBoard}`;
