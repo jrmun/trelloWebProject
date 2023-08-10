@@ -63,5 +63,16 @@ class ColumnController {
             return res.status(500).json({ message: '알 수 없는 오류가 발생하였습니다.' });
         }
     };
+    getCoulmnInBoardId = async (req, res, next) => {
+        try {
+            const { column_id } = req.params;
+            const { status, message, result } = await this.columnService.getCoulmnInBoardId(column_id);
+            return res.status(status).json({ message, result });
+        } catch (error) {
+            if (error.status) return res.status(error.status).json({ message: error.message });
+            console.log(error);
+            return res.status(500).json({ message: '알 수 없는 오류가 발생하였습니다.' });
+        }
+    };
 }
 module.exports = ColumnController;

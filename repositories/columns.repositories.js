@@ -14,9 +14,6 @@ class ColumnRepository {
     };
 
     createColumn = async ({ board_id, user_id, column_name }) => {
-        console.log(board_id);
-        console.log(user_id);
-        console.log(column_name);
         const columnList = await Column.findAll({ where: { board_id: board_id } });
         if (columnList) {
             const maxColumnPosition = await Column.max('position');
@@ -33,6 +30,11 @@ class ColumnRepository {
 
     moveColumn = async ({ column_id, position }) => {
         return await Column.update({ position }, { where: { column_id: column_id } });
+    };
+
+    getCoulmnInBoardId = async (column_id) => {
+        const column = await Column.findOne({ where: { column_id: column_id } });
+        return await Column.findAll({ where: { board_id: column.board_id } });
     };
 }
 

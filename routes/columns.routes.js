@@ -16,5 +16,7 @@ router.put('/columns/:column_id', auth, columnController.updateColumn);
 router.delete('/columns/:column_id', auth, columnController.deleteColumn);
 //컬럼 순서 이동
 router.put('/columns/:column_id', columnController.moveColumn);
+//해당 칼럼이 포함된 보드에 있는 모든 칼럼 반환
+router.get('/columns/:column_id', columnController.getCoulmnInBoardId);
 
 module.exports = router;

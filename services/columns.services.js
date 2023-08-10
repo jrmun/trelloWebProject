@@ -41,6 +41,10 @@ class ColumnService {
         await this.columnRepository.moveColumn({ column_id, position });
         return new ServiceReturn('컬럼 이동이 완료되었습니다.', 200);
     };
+    getCoulmnInBoardId = async (column_id) => {
+        const columnList = await this.columnRepository.getCoulmnInBoardId(column_id);
+        return new ServiceReturn('조회가 완료되었습니다.', 200, columnList);
+    };
 }
 
 module.exports = ColumnService;

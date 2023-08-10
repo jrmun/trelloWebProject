@@ -74,11 +74,26 @@
                     <li><a class="dropdown-item" href="#">보드 3</a></li>
                     <!-- 추가적인 보드 항목들 -->
                 </ul>
+                <button
+                    class="btn btn-link text-secondary dropdown-toggle dropdown-button"
+                    type="button"
+                    id="columnDropdown"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                >
+                    column
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="columnDropdown">
+                    <li><a class="dropdown-item" href="#">칼럼 1</a></li>
+                    <li><a class="dropdown-item" href="#">칼럼 2</a></li>
+                    <li><a class="dropdown-item" href="#">칼럼 3</a></li>
+                    <!-- 추가적인 보드 항목들 -->
+                </ul>
             </div>
         </header>
 
         <div class="container col-xxl-8 px-4 py-5">
-            <div class="card storeCard m-3" id="carditem">
+            <div class="card storeCard m-3" id="columnitem">
                 <div class="card-body">
                   <h5 class="card-title">Card with an image on top</h5>
                   <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
@@ -146,6 +161,7 @@
                             </div>
                             <button type="button" class="btn btn-primary" id="updatebtn">수정하기</button>
                             <button type="button" class="btn btn-primary" id="deletebtn">삭제하기</button>
+                            <button type="button" class="btn btn-primary" id="movecolumnbtn">컬럼이동</button>
                           </form>
                     </div>
                 </div>
