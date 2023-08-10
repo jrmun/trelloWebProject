@@ -11,13 +11,13 @@ class BoardService {
 
     findAllBoardsById = async (user) => {
         const allBoards = await this.boardRepository.findAllBoardsById(user.user_id);
-
+        if (!allBoards) throw new Error("Boards doen't exist");
         return allBoards;
     };
 
     getBoardById = async (boardId) => {
         const findBoard = await this.boardRepository.findBoardById(boardId);
-
+        if (!findBoard) throw new Error("Board doesn't exist");
         return findBoard;
     };
 

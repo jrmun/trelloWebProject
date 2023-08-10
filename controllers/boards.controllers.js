@@ -9,7 +9,6 @@ class BoardsController {
         const { board_name, bg_color, description } = req.body;
         try {
             const createBoardData = await this.boardService.createBoard(user, board_name, bg_color, description);
-
             res.status(201).json({ data: createBoardData });
         } catch (error) {
             res.status(401).json({ message: error.message });
@@ -21,7 +20,6 @@ class BoardsController {
         const user = res.locals.user;
         try {
             const boards = await this.boardService.findAllBoardsById(user);
-
             res.status(200).json({ data: boards });
         } catch (error) {
             res.status(401).json({ message: error.message });
@@ -33,7 +31,6 @@ class BoardsController {
         const { boardId } = req.params;
         try {
             const board = await this.boardService.getBoardById(boardId);
-
             res.status(200).json({ data: board });
         } catch (error) {
             res.status(401).json({ message: error.message });
@@ -49,7 +46,6 @@ class BoardsController {
 
         try {
             const updateBoard = await this.boardService.updateBoard(user, boardId, board_name, bg_color, description);
-
             res.status(200).json({ data: updateBoard });
         } catch (error) {
             res.status(401).json({ message: error.message });
@@ -62,7 +58,6 @@ class BoardsController {
         const user = res.locals.user;
         try {
             const deleteBoard = await this.boardService.deleteBoard(user, boardId);
-
             res.status(200).json({ message: '보드 삭제 성공.' });
         } catch (error) {
             res.status(401).json({ message: error.message });
@@ -76,11 +71,9 @@ class BoardsController {
 
         try {
             const inviteBoard = await this.boardService.inviteBoard(boardId, email);
-
             res.status(200).json({ message: '유저 초대 성공.' });
         } catch (error) {
             console.log(error);
-
             res.status(500).json({ message: error.message });
         }
     };

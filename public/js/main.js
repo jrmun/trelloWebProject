@@ -1,4 +1,3 @@
-// 페이지 실행 시
 window.onload = function () {
     // 로고 누르면 새로고침
     const logoElement = document.querySelector('.text-center');
@@ -14,31 +13,6 @@ window.onload = function () {
     const loginButton = document.querySelector('#loginbtn');
     const logoutButton = document.querySelector('#logoutbtn');
     const addBoardButton = document.querySelector('#addBoardBtn');
-
-    // 로그인 모달 열기
-    loginButton.addEventListener('click', function () {
-        const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-        loginModal.show();
-    });
-
-    // 로그아웃 api 요청
-    logoutButton.addEventListener('click', function () {
-        fetch('/users/logout', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log('로그아웃 성공:', data);
-                alert('로그아웃 되었습니다.');
-                location.reload();
-            })
-            .catch((error) => {
-                console.error('로그아웃 실패:', error);
-            });
-    });
 
     // 회원가입 모달 열기
     const signupButton = document.querySelector('.btn-light');
@@ -96,6 +70,12 @@ window.onload = function () {
             });
     });
 
+    // 로그인 모달 열기
+    loginButton.addEventListener('click', function () {
+        const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+        loginModal.show();
+    });
+
     // 로그인 api 요청
     const loginForm = document.getElementById('loginForm');
     loginForm.addEventListener('submit', function (event) {
@@ -125,6 +105,25 @@ window.onload = function () {
             .catch((error) => {
                 console.error('로그인 실패:', error);
                 alert('로그인에 실패하였습니다.');
+            });
+    });
+
+    // 로그아웃 api 요청
+    logoutButton.addEventListener('click', function () {
+        fetch('/users/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('로그아웃 성공:', data);
+                alert('로그아웃 되었습니다.');
+                location.reload();
+            })
+            .catch((error) => {
+                console.error('로그아웃 실패:', error);
             });
     });
 

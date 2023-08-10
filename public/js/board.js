@@ -1,6 +1,4 @@
-// 페이지 실행 시
 window.onload = function () {
-    // URL에서 쿼리 파라미터 값 가져오기
     const urlParams = new URLSearchParams(window.location.search);
     const boardId = urlParams.get('id');
 
@@ -8,7 +6,18 @@ window.onload = function () {
         loadBoardContent(boardId);
     }
 
+    // 로고 누르면 메인페이지로 이동
+    const logoElement = document.querySelector('.text-center');
+    logoElement.style.cursor = 'pointer';
+
+    logoElement.addEventListener('click', function () {
+        window.location.href = 'index.html';
+    });
+
+    loadBoardUsersAndFillModal();
+
     const logoutButton = document.querySelector('#logoutbtn');
+
     // 로그아웃 api 요청
     logoutButton.addEventListener('click', function () {
         fetch('/users/logout', {
@@ -29,14 +38,6 @@ window.onload = function () {
     });
 
     loadUserBoards();
-
-    // 로고 누르면 메인페이지로 이동
-    const logoElement = document.querySelector('.text-center');
-    logoElement.style.cursor = 'pointer';
-
-    logoElement.addEventListener('click', function () {
-        window.location.href = 'index.html';
-    });
 
     // 보드 수정
     const EditBoardButton = document.querySelector('#EditBoardbtn');
@@ -109,7 +110,6 @@ window.onload = function () {
 
     UserListBtn.addEventListener('click', function () {
         const UserListModal = new bootstrap.Modal(document.getElementById('UserListModal'));
-        loadBoardUsersAndFillModal(UserListModal);
         UserListModal.show();
     });
 
@@ -236,11 +236,10 @@ function navigateToBoardPage(selectedBoard) {
     window.location.href = `board.html?id=${selectedBoard}`;
 }
 
-// 모달 내용을 채우는 함수
+// 참여 유저 모달 내용을 채우는 함수
 function fillUserListModal(users) {
     const userListModalContent = document.getElementById('boardUserForm');
 
-    // 기존 내용 삭제
     userListModalContent.innerHTML = '';
 
     users.forEach((user) => {
@@ -251,7 +250,7 @@ function fillUserListModal(users) {
     });
 }
 
-// 보드 유저 정보를 가져와서 모달 내용 채우는 함수
+// 보드 유저 정보 요청 api
 function loadBoardUsersAndFillModal(modal) {
     const urlParams = new URLSearchParams(window.location.search);
     const boardId = urlParams.get('id');
@@ -264,7 +263,9 @@ function loadBoardUsersAndFillModal(modal) {
     })
         .then((response) => response.json())
         .then((data) => {
-            fillUserListModal(data.data); // 가져온 유저 정보를 모달 내용에 추가
+            fillUserListModal(data.data);
+            const memberCnt = document.getElementById('memberCnt');
+            memberCnt.textContent = `참여인원: ${data.data.length + 1} 명`;
         })
         .catch((error) => {
             console.error('보드 유저 조회 실패:', error);

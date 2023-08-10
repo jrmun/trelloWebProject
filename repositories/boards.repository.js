@@ -16,7 +16,6 @@ class BoardRepository {
 
     findAllBoardsById = async (user_id) => {
         const allBoards = await Board.findAll({ where: { user_id: user_id } });
-
         return allBoards;
     };
 
@@ -71,6 +70,7 @@ class BoardRepository {
                 },
             ],
         });
+
         return BoadUsers;
     };
 }
