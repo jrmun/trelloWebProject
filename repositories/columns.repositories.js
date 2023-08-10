@@ -5,7 +5,7 @@ class ColumnRepository {
     columnFindAll = async (board_id) => {
         return await Column.findAll({
             where: { board_id: board_id },
-            order: ['position'],
+            order: ['column_id'],
         });
     };
 

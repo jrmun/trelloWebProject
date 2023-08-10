@@ -1,11 +1,19 @@
-// 페이지 실행 시
 window.onload = function () {
+    // 로고 누르면 새로고침
+    const logoElement = document.querySelector('.text-center');
+    logoElement.style.cursor = 'pointer';
+
+    logoElement.addEventListener('click', function () {
+        location.reload();
+    });
+
     checkLoggedInStatus();
     loadUserBoards();
 
     const loginButton = document.querySelector('#loginbtn');
     const logoutButton = document.querySelector('#logoutbtn');
     const addBoardButton = document.querySelector('#addBoardBtn');
+    const UserListBtn = document.querySelector('#UserListBtn');
 
     // 로그인 모달 열기
     loginButton.addEventListener('click', function () {
@@ -132,7 +140,8 @@ window.onload = function () {
         event.preventDefault();
 
         const boardName = document.getElementById('boardName').value;
-        const bgColor = document.getElementById('bgColor').value;
+        const colorPickerInput = document.getElementById('bgColor');
+        const bgColor = colorPickerInput.value;
         const description = document.getElementById('description').value;
 
         const formData = {
@@ -208,8 +217,6 @@ function loadUserBoards() {
     })
         .then((response) => response.json())
         .then((data) => {
-            // console.log(data);
-
             if (data.data) {
                 const boardDropdown = document.querySelector('#boardDropdown');
                 const dropdownMenu = boardDropdown.nextElementSibling;
@@ -223,12 +230,9 @@ function loadUserBoards() {
                     dropdownItem.innerHTML = `<a class="dropdown-item" href="#" data-boardid="${board.board_id}">${board.board_id}: ${board.board_name}</a>`;
                     dropdownMenu.appendChild(dropdownItem);
                 });
-                console.log('hello');
 
                 // 보드 목록 선택 이벤트 처리
                 const boardDropdownItems = document.querySelectorAll('.dropdown-item');
-                console.log(boardDropdownItems);
-
                 boardDropdownItems.forEach((item) => {
                     item.addEventListener('click', function (event) {
                         console.log('click');
