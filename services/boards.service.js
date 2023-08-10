@@ -5,7 +5,6 @@ class BoardService {
 
     createBoard = async (user, board_name, bg_color, description) => {
         const createBoardData = await this.boardRepository.createBoard(user.user_id, board_name, bg_color, description);
-
         return createBoardData;
     };
 
@@ -23,13 +22,10 @@ class BoardService {
 
     updateBoard = async (user, boardId, board_name, bg_color, description) => {
         const findBoard = await this.boardRepository.findBoardById(boardId);
-
         if (!findBoard) throw new Error("Board doesn't exist");
 
         await this.boardRepository.updateBoard(user, boardId, board_name, bg_color, description);
-
         const updateBoard = await this.boardRepository.findBoardById(boardId);
-
         return updateBoard;
     };
 
@@ -38,7 +34,6 @@ class BoardService {
         if (!findBoard) throw new Error("Board doesn't exist");
 
         await this.boardRepository.deleteBoard(user, boardId);
-
         return true;
     };
 
@@ -50,7 +45,6 @@ class BoardService {
         if (!board) throw new Error("Board doesn't exist");
 
         const inviteBoardData = await this.boardRepository.createBoardUser(invitedUser.user_id, board.board_id);
-
         return inviteBoardData;
     };
 

@@ -16,9 +16,8 @@ window.onload = function () {
 
     loadBoardUsersAndFillModal();
 
-    const logoutButton = document.querySelector('#logoutbtn');
-
     // 로그아웃 api 요청
+    const logoutButton = document.querySelector('#logoutbtn');
     logoutButton.addEventListener('click', function () {
         fetch('/users/logout', {
             method: 'POST',

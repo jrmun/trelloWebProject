@@ -10,10 +10,6 @@ window.onload = function () {
     checkLoggedInStatus();
     loadUserBoards();
 
-    const loginButton = document.querySelector('#loginbtn');
-    const logoutButton = document.querySelector('#logoutbtn');
-    const addBoardButton = document.querySelector('#addBoardBtn');
-
     // 회원가입 모달 열기
     const signupButton = document.querySelector('.btn-light');
     signupButton.addEventListener('click', function () {
@@ -71,6 +67,7 @@ window.onload = function () {
     });
 
     // 로그인 모달 열기
+    const loginButton = document.querySelector('#loginbtn');
     loginButton.addEventListener('click', function () {
         const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
         loginModal.show();
@@ -109,6 +106,7 @@ window.onload = function () {
     });
 
     // 로그아웃 api 요청
+    const logoutButton = document.querySelector('#logoutbtn');
     logoutButton.addEventListener('click', function () {
         fetch('/users/logout', {
             method: 'POST',
@@ -128,6 +126,7 @@ window.onload = function () {
     });
 
     // 보드 추가 모달 열기
+    const addBoardButton = document.querySelector('#addBoardBtn');
     addBoardButton.addEventListener('click', function () {
         const addBoardModal = new bootstrap.Modal(document.getElementById('addBoardModal'));
         addBoardModal.show();
