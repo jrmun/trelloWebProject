@@ -21,7 +21,15 @@ class BoardRepository {
     };
 
     findBoardById = async (boardId) => {
-        const board = await Board.findOne({ where: { board_id: boardId } });
+        const board = await Board.findOne({
+            where: { board_id: boardId },
+            include: [
+                {
+                    model: User,
+                    attributes: ['name'],
+                },
+            ],
+        });
 
         return board;
     };

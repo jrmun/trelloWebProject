@@ -52,7 +52,7 @@ window.onload = function () {
     editBoardForm.addEventListener('submit', function (event) {
         event.preventDefault();
 
-        const boardName = document.getElementById('boardName').value;
+        const boardName = document.getElementById('board_name').value;
         const bgColor = document.getElementById('bgColor').value;
         const description = document.getElementById('description').value;
 
@@ -172,8 +172,10 @@ function renderBoardData(data) {
     // 보드 이름, 설명, 만든 날짜와 업데이트 날짜를 화면에 표시
     const boardNameElement = document.getElementById('boardName');
     const boardDescriptionElement = document.getElementById('boardDescription');
+    const boadCreateUser = document.getElementById('boadCreateUser');
     boardNameElement.textContent = data.data.board_name;
     boardDescriptionElement.textContent = data.data.description;
+    boadCreateUser.textContent = `보드 생성자: ${data.data.User.name}`;
 
     const createdDateElement = document.getElementById('createdDate');
     const updatedDateElement = document.getElementById('updatedDate');
@@ -212,7 +214,7 @@ function loadUserBoards() {
                     dropdownMenu.appendChild(dropdownItem);
                 });
 
-                // 보드 목록 선택 이벤트 처리
+                // 클릭 이벤트 리스너 등록
                 const boardDropdownItems = document.querySelectorAll('.dropdown-item');
                 boardDropdownItems.forEach((item) => {
                     item.addEventListener('click', function (event) {

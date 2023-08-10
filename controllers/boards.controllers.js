@@ -45,6 +45,8 @@ class BoardsController {
         const user = res.locals.user;
         const { boardId } = req.params;
         const { board_name, bg_color, description } = req.body;
+        console.log(board_name);
+
         try {
             const updateBoard = await this.boardService.updateBoard(user, boardId, board_name, bg_color, description);
 

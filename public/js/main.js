@@ -1,5 +1,13 @@
 // 페이지 실행 시
 window.onload = function () {
+    // 로고 누르면 새로고침
+    const logoElement = document.querySelector('.text-center');
+    logoElement.style.cursor = 'pointer';
+
+    logoElement.addEventListener('click', function () {
+        location.reload();
+    });
+
     checkLoggedInStatus();
     loadUserBoards();
 
@@ -126,14 +134,6 @@ window.onload = function () {
         addBoardModal.show();
     });
 
-    // 스펙트럼 컬러 피커 초기화
-    const bgColorInput = document.getElementById('bgColorInput');
-    $(bgColorInput).spectrum({
-        // jQuery 객체로 감싸서 Spectrum 초기화
-        preferredFormat: 'hex',
-        showAlpha: false,
-    });
-
     // 보드추가 api 요청
     const addBoardForm = document.getElementById('addBoardForm');
     addBoardForm.addEventListener('submit', function (event) {
@@ -217,8 +217,6 @@ function loadUserBoards() {
     })
         .then((response) => response.json())
         .then((data) => {
-            // console.log(data);
-
             if (data.data) {
                 const boardDropdown = document.querySelector('#boardDropdown');
                 const dropdownMenu = boardDropdown.nextElementSibling;
