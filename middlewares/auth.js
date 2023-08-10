@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
+require('dotenv').config();
+const env = process.env;
 
 module.exports = async (req, res, next) => {
     try {
@@ -11,7 +13,7 @@ module.exports = async (req, res, next) => {
             return res.status(401).json({ message: '토큰 타입이 일치하지 않습니다.' });
         }
 
-        const decodedToken = jwt.verify(token, process.env.COOKIE_SECRET);
+        const decodedToken = jwt.verify(token, env.COOKIE_SECRET);
         const userId = decodedToken.user_id;
         const user = await User.findOne({ where: { user_id: userId } });
         if (!user) {

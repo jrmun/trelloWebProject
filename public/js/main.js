@@ -10,6 +10,36 @@ window.onload = function () {
     checkLoggedInStatus();
     loadUserBoards();
 
+    const loginButton = document.querySelector('#loginbtn');
+    const logoutButton = document.querySelector('#logoutbtn');
+    const addBoardButton = document.querySelector('#addBoardBtn');
+    const UserListBtn = document.querySelector('#UserListBtn');
+
+    // 로그인 모달 열기
+    loginButton.addEventListener('click', function () {
+        const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+        loginModal.show();
+    });
+
+    // 로그아웃 api 요청
+    logoutButton.addEventListener('click', function () {
+        fetch('/users/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('로그아웃 성공:', data);
+                alert('로그아웃 되었습니다.');
+                location.reload();
+            })
+            .catch((error) => {
+                console.error('로그아웃 실패:', error);
+            });
+    });
+
     // 회원가입 모달 열기
     const signupButton = document.querySelector('.btn-light');
     signupButton.addEventListener('click', function () {
@@ -66,13 +96,6 @@ window.onload = function () {
             });
     });
 
-    // 로그인 모달 열기
-    const loginButton = document.querySelector('#loginbtn');
-    loginButton.addEventListener('click', function () {
-        const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-        loginModal.show();
-    });
-
     // 로그인 api 요청
     const loginForm = document.getElementById('loginForm');
     loginForm.addEventListener('submit', function (event) {
@@ -105,28 +128,7 @@ window.onload = function () {
             });
     });
 
-    // 로그아웃 api 요청
-    const logoutButton = document.querySelector('#logoutbtn');
-    logoutButton.addEventListener('click', function () {
-        fetch('/users/logout', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log('로그아웃 성공:', data);
-                alert('로그아웃 되었습니다.');
-                location.reload();
-            })
-            .catch((error) => {
-                console.error('로그아웃 실패:', error);
-            });
-    });
-
     // 보드 추가 모달 열기
-    const addBoardButton = document.querySelector('#addBoardBtn');
     addBoardButton.addEventListener('click', function () {
         const addBoardModal = new bootstrap.Modal(document.getElementById('addBoardModal'));
         addBoardModal.show();
@@ -225,7 +227,7 @@ function loadUserBoards() {
                 // 조회한 보드 정보를 드롭다운 항목으로 추가
                 data.data.forEach((board) => {
                     const dropdownItem = document.createElement('li');
-                    dropdownItem.innerHTML = `<a class="dropdown-item" href="#" data-boardid="${board.board_id}">${board.board_name}</a>`;
+                    dropdownItem.innerHTML = `<a class="dropdown-item" href="#" data-boardid="${board.board_id}">${board.board_id}: ${board.board_name}</a>`;
                     dropdownMenu.appendChild(dropdownItem);
                 });
 

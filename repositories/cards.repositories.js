@@ -5,27 +5,37 @@ class CardRepository {
     cardFindOne = async (card_id) => {
         return await Card.findOne({
             where: { card_id: card_id },
-            include: { model: CardInfo, User },
+            include: [{ model: CardInfo }, { model: User }],
         });
     };
 
     cardFindAll = async (column_id) => {
         return await Card.findAll({
-            where: { column_id: column_id },
-            include: { model: CardInfo, User },
-            order: [CardInfo, 'position', 'DESC'],
+            where: { column_id: column_id.column_id },
+            include: [{ model: CardInfo }, { model: User }],
+            order: [[{ model: CardInfo }, 'position', 'DESC']],
         });
     };
 
     createCard = async ({ user_id, column_id, title, content, color, deadline }) => {
-        await sequelize.transaction(async (transaction) => {
-            const cardCreate = await Card.create({ user_id, column_id }, { transaction });
-            await CardInfo.create({ card_id: cardCreate.card_id, title, content, color, deadline }, { transaction });
-        });
+        const cardList = await CardInfo.findAll();
+        if (cardList) {
+            const maxCardPosition = await CardInfo.max('position');
+            const position = maxCardPosition + 1;
+            return await sequelize.transaction(async (transaction) => {
+                const cardCreate = await Card.create({ user_id, column_id }, { transaction });
+                await CardInfo.create({ card_id: cardCreate.card_id, title, content, color, position, deadline }, { transaction });
+            });
+        } else {
+            return await sequelize.transaction(async (transaction) => {
+                const cardCreate = await Card.create({ user_id, column_id }, { transaction });
+                await CardInfo.create({ card_id: cardCreate.card_id, title, content, color, deadline }, { transaction });
+            });
+        }
     };
 
-    updateCard = async ({ card_id, title, content, color }) => {
-        await CardInfo.update({ title, content, color }, { where: { card_id: card_id } });
+    updateCard = async ({ card_id, title, content, color, deadline }) => {
+        await CardInfo.update({ title, content, color, deadline }, { where: { card_id: card_id } });
     };
 
     movecolumn = async ({ card_id, column_id }) => {
@@ -45,13 +55,13 @@ class CardRepository {
             await CardInfo.update({ position }, { where: { card_id: card_id } });
             return await CardInfo.update({ position: cardPosition }, { where: { card_id: card.card_id } });
         }
-        await CardInfo.update({ position }, { where: { card_id: card_id } });
+        return await CardInfo.update({ position }, { where: { card_id: card_id } });
     };
 
     deleteCard = async (card_id) => {
         await sequelize.transaction(async (transaction) => {
-            await Card.delete({ card_id: card_id }, { transaction });
-            await CardInfo.delete({ card_id: card_id }, { transaction });
+            await Card.destroy({ where: { card_id: card_id } }, { transaction });
+            await CardInfo.destroy({ where: { card_id: card_id } }, { transaction });
         });
     };
 }
