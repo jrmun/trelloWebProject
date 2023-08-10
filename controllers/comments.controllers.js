@@ -5,10 +5,12 @@ class CommentsController {
 
     createComments = async (req, res, next) => {
         try {
-            const user_id = res.locals.user;
-            const { card_id } = req.params;
+            // const user_id = res.locals.user;
+            // const { card_id } = req.params;
+            
             const { comment } = req.body;
-            const createCommentData = await this.CommentsService.createComments({user_id, comment, card_id});
+            const createCommentData = await this.CommentsService.createComments(comment);
+            console.log(createCommentData);
 
             res.status(200).json({ data: createCommentData });
         } catch (error) {

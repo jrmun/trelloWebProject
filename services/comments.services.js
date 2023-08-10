@@ -3,17 +3,13 @@ const CommentsRepository = require('../repositories/comments.repositories');
 class CommentsService {
     CommentsRepository = new CommentsRepository();
 
-    createComments = async ({ user_id, card_id, comment }) => {
-        const findComment = await this.CommentRepository.findOne({ card_id });
-        if (!findComment) throw { code: 403, message: '게시글이 존재하지 않습니다.'};
+    createComments = async (comment) => {
+        if (!comment) throw new Error('댓글을 작성해주세요')
+        const findComment = await this.CommentRepository.createComments(comment);
+        // if (!findComment) throw { code: 403, message: '게시글이 존재하지 않습니다.'};
 
-        if (comment === '') throw { code: 412, message: '댓글을 작성해주세요' };
-        await this.commentsRepository.createOne({
-            User_id: user_id,
-            Card_id: card_id,
-            comment
-        });
-        return { code: 200, message: '댓글 작성이 완료되었습니다.' };
+        
+        return findComment;
     };
 
     findAllComment = async ({ card_id }) => {
