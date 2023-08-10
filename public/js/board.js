@@ -119,7 +119,7 @@ window.onload = function () {
     addColumnForm.addEventListener('submit', function (event) {
         event.preventDefault();
 
-        const columnName = document.getElementById('columnName').value;
+        const columnName = document.getElementById('columnAddName').value;
 
         const formData = {
             column_name: columnName,
@@ -154,7 +154,6 @@ function loadBoardContent(boardId) {
     })
         .then((response) => response.json())
         .then((data) => {
-            console.log(data);
             renderBoardData(data);
         })
         .catch((error) => {
@@ -241,7 +240,6 @@ function loadColumnContent(boardId) {
     })
         .then((response) => response.json())
         .then((data) => {
-            console.log('get:', data);
             renderColumnData(data);
         })
         .catch((error) => {
@@ -249,16 +247,14 @@ function loadColumnContent(boardId) {
         });
 }
 function renderColumnData(data) {
-    // 칼럼 이름표시
-    //const columnNameElement = document.getElementById('columnName');
-    //columnNameElement.innerHTML = data.data.column_name;
     const columnListDiv = document.getElementById('columnList');
     data.data.forEach((columnData) => {
         const column_name = columnData['column_name'];
         const column_id = columnData['column_id'];
 
         const temp_html = `<div id="list" class="board-details p-4 border rounded shadow-sm bg-light mt-4">
-        <button type="button" class="btn btn-outline-secondary btn-custom-height" id='editColumnButton' onclick=editColumn(${column_id})>칼럼수정</button> 
+        <button type="button" class="btn btn-outline-secondary btn-custom-height" id='editColumnButton' onclick=editColumn(${column_id})>칼럼수정</button>
+        <button type="button" class="btn btn-outline-secondary btn-custom-height" id='deleteColumnButton' onclick=deleteColumn(${column_id})>칼럼삭제</button> 
         <div class="d-flex justify-content-between mb-2">
             <h3 class="list-title" id="columnName">${column_name}</h3>
             <ul class="list-items"></ul>
@@ -266,29 +262,21 @@ function renderColumnData(data) {
     </div>`;
         columnListDiv.insertAdjacentHTML('beforeend', temp_html);
     });
-    // const editColumnButton = document.querySelector('#editColumnBtn');
-    // // 칼럼 수정 모달 열기
-    // editColumnButton.addEventListener('click', function () {
-    //     const editColumnModal = new bootstrap.Modal(document.getElementById('editColumnModal'));
-    //     editColumnModal.show();
-    // });
-    // 칼럼수정 api 요청
 }
 
 function editColumn(column_id) {
     const editColumnModal = new bootstrap.Modal(document.getElementById('editColumnModal'));
     editColumnModal.show();
 
-    const addColumnForm = document.getElementById('editColumnForm');
-    addColumnForm.addEventListener('submit', function (event) {
+    const editColumnForm = document.getElementById('editColumnForm');
+    editColumnForm.addEventListener('submit', function (event) {
         event.preventDefault();
 
-        const columnName = document.getElementById('columnName').value;
+        const columnName = document.getElementById('columnEditName').value;
 
         const formData = {
             column_name: columnName,
         };
-
         fetch(`/column/${column_id}`, {
             method: 'PUT',
             headers: {
@@ -308,6 +296,26 @@ function editColumn(column_id) {
             });
     });
 }
+
+function deleteColumn(column_id) {
+    fetch(`/column/${column_id}`, {
+        method: 'delete',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log('칼럼 삭제 성공:', data);
+            alert('칼럼 삭제되었습니다.');
+            location.reload();
+        })
+        .catch((error) => {
+            console.error('칼럼삭제 실패:', error);
+            alert('칼럼삭제에 실패하였습니다.');
+        });
+}
+
 // 보드 페이지로 이동
 function navigateToBoardPage(selectedBoard) {
     window.location.href = `board.html?id=${selectedBoard}`;

@@ -1,4 +1,5 @@
 const { Column } = require('../models');
+const { Op } = require('sequelize');
 
 class ColumnRepository {
     createColumn = async ({ column_name, board_id, user_id }) => {
@@ -20,13 +21,14 @@ class ColumnRepository {
         return column;
     };
 
-    updateColumn = async (column_id, column_name, board_id, user_id) => {
-        const columnData = await Column.update({ column_name }, { where: { column_id, board_id, user_id } });
+    updateColumn = async (column_id, user_id, column_name) => {
+        console.log('rep:', user_id);
+        const columnData = await Column.update({ column_name }, { where: { [Op.and]: [{ user_id: user_id }, { column_id: column_id }] } });
         return columnData;
     };
 
-    deleteColumn = async (board_id, user_id) => {
-        const columnData = await Column.destroy({ where: { board_id, user_id } });
+    deleteColumn = async (column_id, user_id) => {
+        const columnData = await Column.destroy({ where: { [Op.and]: [{ column_id, user_id }] } });
         return columnData;
     };
 }

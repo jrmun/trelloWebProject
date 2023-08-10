@@ -1,6 +1,8 @@
 const UserRepository = require('../repositories/user.repository');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+require('dotenv').config();
+const env = process.env;
 
 class UserService {
     userRepository = new UserRepository();

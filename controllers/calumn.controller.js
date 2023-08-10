@@ -9,14 +9,14 @@ class ColumnController {
             const { column_name } = req.body;
             const user_id = res.locals.user.user_id;
             const { board_id } = req.params;
-            console.log(user_id);
+            console.log(column_name);
 
             const columnData = await this.columnService.createColumn({ column_name, user_id, board_id });
             res.status(201).json({ data: columnData });
         } catch (error) {
             if (error.status) return res.status(error.status).json({ message: error.message });
             console.log(error);
-            return res.status(500).json({ message: '알 수 없는 오류가 발생하였습니다.' });
+            return res.status(500).json({ message: error.message });
         }
     };
     //칼럼 조회
@@ -46,16 +46,16 @@ class ColumnController {
     updateColumn = async (req, res, next) => {
         try {
             const { user_id } = res.locals.user;
-            const { column_id, board_id } = res.params;
+            const { column_id } = req.params;
             const { column_name } = req.body;
-
-            const updateColumn = await this.columnService.updateColumn(column_id, user_id, column_name, board_id);
+            console.log(column_name);
+            const updateColumn = await this.columnService.updateColumn(column_id, user_id, column_name);
 
             res.status(200).json({ data: updateColumn });
         } catch (error) {
             if (error.status) return res.status(error.status).json({ message: error.message });
             console.log(error);
-            return res.status(500).json({ message: '알 수 없는 오류가 발생하였습니다.' });
+            return res.status(500).json({ message: error.message });
         }
     };
     //칼럼 삭제
@@ -70,7 +70,7 @@ class ColumnController {
         } catch (error) {
             if (error.status) return res.status(error.status).json({ message: error.message });
             console.log(error);
-            return res.status(500).json({ message: '알 수 없는 오류가 발생하였습니다.' });
+            return res.status(500).json({ message: error.message });
         }
     };
 }
