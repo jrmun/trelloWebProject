@@ -1,5 +1,12 @@
-// 페이지 실행 시
 window.onload = function () {
+    // 로고 누르면 새로고침
+    const logoElement = document.querySelector('.text-center');
+    logoElement.style.cursor = 'pointer';
+
+    logoElement.addEventListener('click', function () {
+        location.reload();
+    });
+
     checkLoggedInStatus();
     loadUserBoards();
 
@@ -133,7 +140,8 @@ window.onload = function () {
         event.preventDefault();
 
         const boardName = document.getElementById('boardName').value;
-        const bgColor = document.getElementById('bgColor').value;
+        const colorPickerInput = document.getElementById('bgColor');
+        const bgColor = colorPickerInput.value;
         const description = document.getElementById('description').value;
 
         const formData = {
@@ -159,12 +167,6 @@ window.onload = function () {
                 console.error('보드생성 실패:', error);
                 alert('보드생성에 실패하였습니다.');
             });
-    });
-
-    // 참여자 목록 버튼 클릭 시 유저 목록 모달 열기
-    UserListBtn.addEventListener('click', function () {
-        const UserListModal = new bootstrap.Modal(document.getElementById('UserListModal'));
-        UserListModal.show();
     });
 };
 
@@ -215,8 +217,6 @@ function loadUserBoards() {
     })
         .then((response) => response.json())
         .then((data) => {
-            // console.log(data);
-
             if (data.data) {
                 const boardDropdown = document.querySelector('#boardDropdown');
                 const dropdownMenu = boardDropdown.nextElementSibling;
@@ -227,15 +227,12 @@ function loadUserBoards() {
                 // 조회한 보드 정보를 드롭다운 항목으로 추가
                 data.data.forEach((board) => {
                     const dropdownItem = document.createElement('li');
-                    dropdownItem.innerHTML = `<a class="dropdown-item" href="#" data-boardid="${board.board_id}">${board.board_name}</a>`;
+                    dropdownItem.innerHTML = `<a class="dropdown-item" href="#" data-boardid="${board.board_id}">${board.board_id}: ${board.board_name}</a>`;
                     dropdownMenu.appendChild(dropdownItem);
                 });
-                console.log('hello');
 
                 // 보드 목록 선택 이벤트 처리
                 const boardDropdownItems = document.querySelectorAll('.dropdown-item');
-                console.log(boardDropdownItems);
-
                 boardDropdownItems.forEach((item) => {
                     item.addEventListener('click', function (event) {
                         console.log('click');

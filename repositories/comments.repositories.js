@@ -1,22 +1,26 @@
 const { Comment } = require("../models");
-// const { Op } = require("sequelize");
+const { Op } = require("sequelize");
 
 class CommentsRepository {
-    createComments = async (comment) => {
-        const createCommentData = await Comment.create({comment});
-        return createCommentData;
+    createComment = async ({ user_id, card_id, content }) => {
+        console.log(card_id)
+        return await Comment.create({user_id, card_id, content});
     };
 
-    findAllComments = async ({ card_id }) => {
-        return await Comment.findAllComment({card_id});
+    findAllComment = async () => {
+        return await Comment.findAll();
     };
 
-    updateComments = async ({ user_id, card_id, comment_id, comment }) => {
-        return await Comment.update({comment}, {where: {user_id, card_id, comment_id}});
+    findOneComment = async (comment_id) => {
+        return await Comment.findOne({where: { comment_id: comment_id }});
     };
 
-    deleteComments = async ({ user_id, card_id, comment_id }) => {
-        return await Comment.delete({where: { user_id, card_id, comment_id }}); 
+    updateComment = async ( user_id, card_id, comment_id, content ) => {
+        return await Comment.update({content}, { where: { [Op.and]: [{ user_id:user_id }, { card_id:card_id },{comment_id:comment_id}] } });
+    };
+
+    deleteComment = async (user_id, card_id, comment_id) => {
+        return await Comment.destroy({where: { [Op.and]: [{ user_id:user_id }, { card_id:card_id },{comment_id:comment_id}] } });
     };
 
 }

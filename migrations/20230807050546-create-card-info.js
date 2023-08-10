@@ -37,10 +37,11 @@ module.exports = {
             worker: {
                 allowNull: false,
                 type: Sequelize.STRING,
+                defaultValue: '미지정',
             },
             deadline: {
                 allowNull: false,
-                type: Sequelize.DATE,
+                type: Sequelize.STRING,
             },
             createdAt: {
                 allowNull: false,

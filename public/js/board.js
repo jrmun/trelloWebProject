@@ -1,16 +1,23 @@
-// 페이지 실행 시
 window.onload = function () {
-    // URL에서 쿼리 파라미터 값 가져오기
     const urlParams = new URLSearchParams(window.location.search);
     const boardId = urlParams.get('id');
 
     if (boardId) {
         loadBoardContent(boardId);
-        console.log('data.req');
     }
 
-    const logoutButton = document.querySelector('#logoutbtn');
+    // 로고 누르면 메인페이지로 이동
+    const logoElement = document.querySelector('.text-center');
+    logoElement.style.cursor = 'pointer';
+
+    logoElement.addEventListener('click', function () {
+        window.location.href = 'index.html';
+    });
+
+    loadBoardUsersAndFillModal();
+
     // 로그아웃 api 요청
+    const logoutButton = document.querySelector('#logoutbtn');
     logoutButton.addEventListener('click', function () {
         fetch('/users/logout', {
             method: 'POST',
@@ -31,14 +38,6 @@ window.onload = function () {
 
     loadUserBoards();
 
-    // 로고 누르면 메인페이지로 이동
-    const logoElement = document.querySelector('.text-center');
-    logoElement.style.cursor = 'pointer';
-
-    logoElement.addEventListener('click', function () {
-        window.location.href = 'index.html';
-    });
-
     // 보드 수정
     const EditBoardButton = document.querySelector('#EditBoardbtn');
 
@@ -53,7 +52,7 @@ window.onload = function () {
     editBoardForm.addEventListener('submit', function (event) {
         event.preventDefault();
 
-        const boardName = document.getElementById('boardName').value;
+        const boardName = document.getElementById('board_name').value;
         const bgColor = document.getElementById('bgColor').value;
         const description = document.getElementById('description').value;
 
@@ -104,6 +103,52 @@ window.onload = function () {
                 alert('보드삭제에 실패하였습니다.');
             });
     });
+
+    // 참여자 목록 버튼 클릭 시 유저 목록 모달 열기
+    const UserListBtn = document.querySelector('#UserListBtn');
+
+    UserListBtn.addEventListener('click', function () {
+        const UserListModal = new bootstrap.Modal(document.getElementById('UserListModal'));
+        UserListModal.show();
+    });
+
+    // 유저 초대 버튼 클릭 시 유저 초대 모달 열기
+    const UserInviteBtn = document.querySelector('#UserInviteBtn');
+
+    UserInviteBtn.addEventListener('click', function () {
+        const userInviteModal = new bootstrap.Modal(document.getElementById('userInviteModal'));
+        userInviteModal.show();
+    });
+
+    // 유저 초대 api 요청
+    const userInviteForm = document.getElementById('userInviteForm');
+    userInviteForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const inviteUserEmail = document.getElementById('inviteUserEmail').value;
+
+        const formData = {
+            email: inviteUserEmail,
+        };
+
+        fetch(`/board/${boardId}/invite`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('유저 초대 성공:', data);
+                alert('유저가 초대되었습니다.');
+                location.reload();
+            })
+            .catch((error) => {
+                console.error('유저 초대 실패:', error);
+                alert('유저초대에 실패하였습니다.');
+            });
+    });
 };
 
 function loadBoardContent(boardId) {
@@ -115,7 +160,6 @@ function loadBoardContent(boardId) {
     })
         .then((response) => response.json())
         .then((data) => {
-            console.log(data);
             renderBoardData(data);
         })
         .catch((error) => {
@@ -124,13 +168,13 @@ function loadBoardContent(boardId) {
 }
 
 function renderBoardData(data) {
-    console.log('render');
-
     // 보드 이름, 설명, 만든 날짜와 업데이트 날짜를 화면에 표시
     const boardNameElement = document.getElementById('boardName');
     const boardDescriptionElement = document.getElementById('boardDescription');
+    const boadCreateUser = document.getElementById('boadCreateUser');
     boardNameElement.textContent = data.data.board_name;
     boardDescriptionElement.textContent = data.data.description;
+    boadCreateUser.textContent = `보드 생성자: ${data.data.User.name}`;
 
     const createdDateElement = document.getElementById('createdDate');
     const updatedDateElement = document.getElementById('updatedDate');
@@ -155,8 +199,6 @@ function loadUserBoards() {
     })
         .then((response) => response.json())
         .then((data) => {
-            // console.log(data);
-
             if (data.data) {
                 const boardDropdown = document.querySelector('#boardDropdown');
                 const dropdownMenu = boardDropdown.nextElementSibling;
@@ -171,15 +213,11 @@ function loadUserBoards() {
                     dropdownMenu.appendChild(dropdownItem);
                 });
 
-                // 보드 목록 선택 이벤트 처리
+                // 클릭 이벤트 리스너 등록
                 const boardDropdownItems = document.querySelectorAll('.dropdown-item');
                 boardDropdownItems.forEach((item) => {
                     item.addEventListener('click', function (event) {
-                        console.log('click');
-
                         const selectedBoardId = item.getAttribute('data-boardid');
-                        console.log(selectedBoardId);
-
                         if (selectedBoardId) {
                             navigateToBoardPage(selectedBoardId);
                         }
@@ -195,4 +233,40 @@ function loadUserBoards() {
 // 보드 페이지로 이동
 function navigateToBoardPage(selectedBoard) {
     window.location.href = `board.html?id=${selectedBoard}`;
+}
+
+// 참여 유저 모달 내용을 채우는 함수
+function fillUserListModal(users) {
+    const userListModalContent = document.getElementById('boardUserForm');
+
+    userListModalContent.innerHTML = '';
+
+    users.forEach((user) => {
+        const userListItem = document.createElement('li');
+        userListItem.className = 'list-group-item';
+        userListItem.textContent = user.User.name;
+        userListModalContent.appendChild(userListItem);
+    });
+}
+
+// 보드 유저 정보 요청 api
+function loadBoardUsersAndFillModal(modal) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const boardId = urlParams.get('id');
+
+    fetch(`/board/${boardId}/invite`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            fillUserListModal(data.data);
+            const memberCnt = document.getElementById('memberCnt');
+            memberCnt.textContent = `참여인원: ${data.data.length + 1} 명`;
+        })
+        .catch((error) => {
+            console.error('보드 유저 조회 실패:', error);
+        });
 }
