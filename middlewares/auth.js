@@ -13,7 +13,6 @@ module.exports = async (req, res, next) => {
 
         const decodedToken = jwt.verify(token, process.env.COOKIE_SECRET);
         const userId = decodedToken.user_id;
-
         const user = await User.findOne({ where: { user_id: userId } });
         if (!user) {
             res.clearCookie('authorization');

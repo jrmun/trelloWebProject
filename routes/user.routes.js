@@ -12,11 +12,11 @@ router.post('/users/signup', usersController.createUser);
 // 로그인
 router.post('/users/login', usersController.login);
 // 사용자 정보 조회
-router.get('/users/userinfo', usersController.getUser);
+router.get('/users/userinfo', auth, usersController.getUser);
 // 사용자 정보 수정
-
-// 사용자 정보 삭제(회원탈퇴)
-// router.delete('/users/signout', usersController.deleteUser);
+router.put('/users/userinfo', auth, usersController.updateUser);
+// // 사용자 정보 삭제(회원탈퇴)
+router.delete('/users/signout', auth, usersController.deleteUser);
 
 router.post('/users/logout', (req, res) => {
     res.clearCookie('authorization', { httpOnly: true, path: '/' });
