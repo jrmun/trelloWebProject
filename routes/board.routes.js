@@ -11,7 +11,6 @@ router.get('/board', auth, boardsController.getBoards);
 router.get('/board/:boardId', auth, boardsController.getBoardById);
 router.put('/board/:boardId', auth, boardsController.updateBoard);
 router.delete('/board/:boardId', auth, boardsController.deleteBoard);
-
 router.post('/board/:boardId/invite', auth, boardsController.inviteBoard);
 router.get('/board/:boardId/invite', auth, boardsController.getBoadUsers);
 

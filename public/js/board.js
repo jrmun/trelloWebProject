@@ -4,6 +4,7 @@ window.onload = function () {
 
     if (boardId) {
         loadBoardContent(boardId);
+        loadCardItem(boardId);
     }
 
     // 로고 누르면 메인페이지로 이동
