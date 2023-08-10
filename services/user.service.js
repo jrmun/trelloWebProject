@@ -13,7 +13,6 @@ class UserService {
 
     loginUser = async (email, password) => {
         const user = await this.userRepository.findLoginUser(email);
-        const pwConfirm = await bcrypt.compare(password, user.password);
         if (!user) throw new Error('닉네임을 확인해주세요.');
         if (user) {
             const pwConfirm = await bcrypt.compare(password, user.password);
