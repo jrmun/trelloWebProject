@@ -1,7 +1,7 @@
 const { Column } = require('../models');
 
 class ColumnRepository {
-    createColumn = async (column_name, board_id, user_id) => {
+    createColumn = async ({ column_name, board_id, user_id }) => {
         const calumnData = await Column.create({
             column_name,
             board_id,

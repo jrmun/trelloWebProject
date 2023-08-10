@@ -8,6 +8,7 @@ window.onload = function () {
         loadBoardContent(boardId);
         console.log('data.req');
     }
+    loadColumnContent(boardId);
 
     const logoutButton = document.querySelector('#logoutbtn');
     // 로그아웃 api 요청
@@ -104,6 +105,44 @@ window.onload = function () {
                 alert('보드삭제에 실패하였습니다.');
             });
     });
+
+    const addColumnButton = document.querySelector('#addColumnBtn');
+
+    // 칼럼 추가 모달 열기
+    addColumnButton.addEventListener('click', function () {
+        const addColumnModal = new bootstrap.Modal(document.getElementById('addColumnModal'));
+        addColumnModal.show();
+    });
+
+    // 칼럼추가 api 요청
+    const addColumnForm = document.getElementById('addColumnForm');
+    addColumnForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const columnName = document.getElementById('columnName').value;
+
+        const formData = {
+            column_name: columnName,
+        };
+
+        fetch(`/board/${boardId}/column`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('칼럼 생성 성공:', data);
+                alert('칼럼 생성되었습니다.');
+                location.reload();
+            })
+            .catch((error) => {
+                console.error('칼럼생성 실패:', error);
+                alert('칼럼생성에 실패하였습니다.');
+            });
+    });
 };
 
 function loadBoardContent(boardId) {
@@ -192,6 +231,79 @@ function loadUserBoards() {
         });
 }
 
+//column get api
+function loadColumnContent(boardId) {
+    fetch(`/board/${boardId}/column`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log('get:', data);
+            renderColumnData(data);
+        })
+        .catch((error) => {
+            console.error('칼럼 조회 실패:', error);
+        });
+}
+function renderColumnData(data) {
+    // 칼럼 이름표시
+    //const columnNameElement = document.getElementById('columnName');
+    //columnNameElement.innerHTML = data.data.column_name;
+    const columnListDiv = document.getElementById('columnList');
+    data.data.forEach((columnData) => {
+        const column_name = columnData['column_name'];
+        const column_id = columnData['column_id'];
+
+        const temp_html = `<div id="list" class="board-details p-4 border rounded shadow-sm bg-light mt-4">
+        <button type="button" class="btn btn-outline-secondary btn-custom-height" id='editColumnBtn')>칼럼수정</button> 
+        <div class="d-flex justify-content-between mb-2">
+            <h3 class="list-title" id="columnName">${column_name}</h3>
+            <ul class="list-items"></ul>
+        </div>
+    </div>`;
+        columnListDiv.insertAdjacentHTML('beforeend', temp_html);
+    });
+    const editColumnButton = document.querySelector('#editColumnBtn');
+    // 칼럼 수정 모달 열기
+    editColumnButton.addEventListener('click', function () {
+        const editColumnModal = new bootstrap.Modal(document.getElementById('editColumnModal'));
+        editColumnModal.show();
+    });
+    // 칼럼수정 api 요청
+    const addColumnForm = document.getElementById('editColumnForm');
+    addColumnForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const columnName = document.getElementById('columnName').value;
+
+        const formData = {
+            column_name: columnName,
+        };
+
+        fetch(`/column/${column_id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('칼럼 생성 성공:', data);
+                alert('칼럼 생성되었습니다.');
+                location.reload();
+            })
+            .catch((error) => {
+                console.error('칼럼생성 실패:', error);
+                alert('칼럼생성에 실패하였습니다.');
+            });
+    });
+}
+
+function editColumn(column_id) {}
 // 보드 페이지로 이동
 function navigateToBoardPage(selectedBoard) {
     window.location.href = `board.html?id=${selectedBoard}`;

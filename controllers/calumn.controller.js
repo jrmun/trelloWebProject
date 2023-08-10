@@ -4,13 +4,14 @@ class ColumnController {
     columnService = new ColumnService();
 
     //칼럼 만들기
-    createColumn = async (column_name, board_id, user_id) => {
+    createColumn = async (req, res, next) => {
         try {
             const { column_name } = req.body;
-            const { user_id } = res.locals.user;
+            const user_id = res.locals.user.user_id;
             const { board_id } = req.params;
+            console.log(user_id);
 
-            const columnData = await this.columnService.createColumn(column_name, user_id, board_id);
+            const columnData = await this.columnService.createColumn({ column_name, user_id, board_id });
             res.status(201).json({ data: columnData });
         } catch (error) {
             if (error.status) return res.status(error.status).json({ message: error.message });
@@ -21,7 +22,7 @@ class ColumnController {
     //칼럼 조회
     getColumn = async (req, res, next) => {
         try {
-            const columnData = await this.columnService.findAllColumn();
+            const columnData = await this.columnService.getColumn();
             res.status(200).json({ data: columnData });
         } catch (error) {
             if (error.status) return res.status(error.status).json({ message: error.message });
