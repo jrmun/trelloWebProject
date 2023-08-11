@@ -16,12 +16,19 @@ class BoardRepository {
 
     findAllBoardsById = async (user_id) => {
         const allBoards = await Board.findAll({ where: { user_id: user_id } });
-
         return allBoards;
     };
 
     findBoardById = async (boardId) => {
-        const board = await Board.findOne({ where: { board_id: boardId } });
+        const board = await Board.findOne({
+            where: { board_id: boardId },
+            include: [
+                {
+                    model: User,
+                    attributes: ['name'],
+                },
+            ],
+        });
 
         return board;
     };
@@ -51,6 +58,33 @@ class BoardRepository {
     createBoardUser = async (user_id, board_id) => {
         const boardUser = await BoardUser.create({ user_id, board_id });
         return boardUser;
+    };
+
+    getBoadUsers = async (boardId) => {
+        const BoadUsers = await BoardUser.findAll({
+            where: { board_id: boardId },
+            include: [
+                {
+                    model: User,
+                    attributes: ['name'],
+                },
+            ],
+        });
+
+        return BoadUsers;
+    };
+
+    getInvitedBoards = async (user_id) => {
+        const InvitedBoards = await BoardUser.findAll({
+            where: { user_id: user_id },
+            include: [
+                {
+                    model: Board,
+                    attributes: ['board_name'],
+                },
+            ],
+        });
+        return InvitedBoards;
     };
 }
 
