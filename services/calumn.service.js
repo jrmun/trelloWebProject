@@ -3,10 +3,8 @@ const ColumnRepository = require('../repositories/calumn.repository');
 class ColumnService {
     columnRepository = new ColumnRepository();
 
-    getColumn = async () => {
-        const getColumnData = await this.columnRepository.findAllColumn({
-            order: [['createAt', 'DESC']],
-        });
+    getColumn = async (board_id) => {
+        const getColumnData = await this.columnRepository.findAllColumn(board_id);
         return getColumnData;
     };
 

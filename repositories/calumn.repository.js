@@ -11,16 +11,20 @@ class ColumnRepository {
         return calumnData;
     };
 
-    findAllColumn = async () => {
-        const column = await Column.findAll();
-
+    findColumnByName = async (column_name) => {
+        return await Column.findOne({ where: { column_name: column_name } });
+    };
+    findAllColumn = async (board_id) => {
+        const column = await Column.findAll({
+            where: { board_id: board_id },
+            order: [['createdAt']],
+        });
         return column;
     };
     findColumnById = async (column_id) => {
         const column = await Column.findByPk(column_id);
         return column;
     };
-
     updateColumn = async (column_id, user_id, column_name) => {
         console.log('rep:', user_id);
         const columnData = await Column.update({ column_name }, { where: { [Op.and]: [{ user_id: user_id }, { column_id: column_id }] } });

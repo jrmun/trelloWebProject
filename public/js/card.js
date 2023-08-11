@@ -20,7 +20,6 @@ function renderColumnData(data) {
     data.data.forEach((columnData) => {
         const column_name = columnData['column_name'];
         const column_id = columnData['column_id'];
-
         const temp_html = `<div id="list" class="board-details p-4 border rounded shadow-sm bg-light mt-4">
                                 <button type="button" class="btn btn-outline-secondary btn-custom-height" id='editColumnButton' onclick=editColumn(${column_id})>칼럼수정</button>
                                 <button type="button" class="btn btn-outline-secondary btn-custom-height" id='deleteColumnButton' onclick=deleteColumn(${column_id})>칼럼삭제</button> 
@@ -38,7 +37,7 @@ function renderColumnData(data) {
     });
 
     const cardItem = document.querySelectorAll('#carditemlist');
-    console.log(cardItem);
+
     cardItem.forEach((carditems) => {
         const column_id = carditems.getAttribute('value');
         fetch(`/columns/${column_id}/cards`, {
@@ -54,7 +53,7 @@ function renderColumnData(data) {
                     const cardbox = document.getElementById(`column${column_id}`);
                     cardlists.forEach((card) => {
                         const cardhtml = `<div class="card storeCard m-3" style="background-color: ${card.color};" id="${card.card_id}">
-                                                                <div class="card-body" id="card" value="${card.card_id}">
+                                                                <div class="card-body" id="card" value="${card.card_id}" onclick="window.location.href='cardDetail.html?id=${card.card_id}';">
                                                                 <div>
                                                                 <h5 class="card-title" id="cardtitle" style="font-size:200%; font-weight: bold;" >${card.title}</h5>
                                                                 <h5 style="font-weight: bold;" >중요도 : ${card.position}</h5>
@@ -65,6 +64,7 @@ function renderColumnData(data) {
                                                                 <div>
                                                                 <button type="submit" class="btn btn-primary" id="selectworker${card.card_id}" value="${card.card_id}">담당하기</button>
                                                                 <button type="submit" class="btn btn-primary" id="movePosition${card.card_id}" value="${card.card_id}">중요도변경</button>
+                                                                <button type="submit" class="btn btn-primary" id="updateCardBtn${card.card_id}" value="${card.card_id}">수정하기</button>
                                                                 </div>
                                                                 </div>`;
                         cardbox.innerHTML += cardhtml;
@@ -79,10 +79,10 @@ function renderColumnData(data) {
 
     function cardapi(card_id) {
         const card = document.getElementById(`${card_id}`);
-        const updatebtn = card.querySelector(`#selectworker${card_id}`);
+        const selectworkderbtn = card.querySelector(`#selectworker${card_id}`);
         const movebtn = card.querySelector(`#movePosition${card_id}`);
-        const cardbody = card.querySelector(`#card`);
-        updatebtn.addEventListener('click', function () {
+        const updatecardbtn = card.querySelector(`#updateCardBtn${card_id}`);
+        selectworkderbtn.addEventListener('click', function () {
             fetch(`cards/${card_id}/selectworker`, {
                 method: 'PUT',
                 headers: {
@@ -124,7 +124,7 @@ function renderColumnData(data) {
                 alert('중요도를 입력해주세요.');
             }
         });
-        cardbody.addEventListener('click', function () {
+        updatecardbtn.addEventListener('click', function () {
             //모달 생성
             const updateCardModal = new bootstrap.Modal(document.getElementById('updateCardModal'));
             updateCardModal.show();
@@ -202,14 +202,15 @@ function renderColumnData(data) {
             });
             //컬럼 이동 api
             movecolumnbtn.addEventListener('click', function () {
-                var columnid = prompt('이동할 칼럼의 번호를 입력해주세요' + '');
-                if (columnid) {
+                const board_id = data.data[0].board_id;
+                var column_name = prompt('이동할 칼럼의 이름을 입력해주세요' + '');
+                if (column_name) {
                     fetch(`cards/${card_id}/movecolumn`, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ column_id: columnid }),
+                        body: JSON.stringify({ column_name: column_name, board_id: board_id }),
                     })
                         .then((response) => response.json())
                         .then((data) => {
@@ -222,7 +223,7 @@ function renderColumnData(data) {
                             alert('칼럼 이동동에 실패했습니다.');
                         });
                 } else {
-                    alert('칼럼 번호를 입력해주세요.');
+                    alert('칼럼 이름을 입력해주세요.');
                 }
             });
         });

@@ -71,9 +71,9 @@ class CardController {
         try {
             const user_id = res.locals.user.user_id;
             const { card_id } = req.params;
-            const { column_id } = req.body;
+            const { column_name, board_id } = req.body;
 
-            const { status, message, result } = await this.cardService.movecolumn({ user_id, column_id, card_id });
+            const { status, message, result } = await this.cardService.movecolumn({ column_name, card_id, board_id, user_id });
             return res.status(status).json({ status, message, result });
         } catch (error) {
             if (error.status) return res.status(error.status).json({ message: error.message });
