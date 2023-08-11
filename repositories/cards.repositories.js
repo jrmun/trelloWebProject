@@ -28,8 +28,8 @@ class CardRepository {
         await CardInfo.update({ title, content, color, deadline }, { where: { card_id: card_id } });
     };
 
-    movecolumn = async ({ column_name, card_id }) => {
-        const column = await Column.findOne({ where: { column_name: column_name } });
+    movecolumn = async ({ column_name, card_id, board_id }) => {
+        const column = await Column.findOne({ where: { [Op.and]: [{ column_name: column_name }, { board_id: board_id }] } });
         await Card.update({ column_id: column.column_id }, { where: { card_id: card_id } });
     };
 

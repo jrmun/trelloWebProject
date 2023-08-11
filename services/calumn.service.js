@@ -9,8 +9,6 @@ class ColumnService {
     };
 
     createColumn = async ({ column_name, board_id, user_id }) => {
-        const valiColumnName = await this.columnRepository.findColumnByName(column_name);
-        if (valiColumnName) throw new Error('Column name already exit');
         const columnData = await this.columnRepository.createColumn({ column_name, board_id, user_id });
 
         return columnData;
