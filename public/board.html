@@ -314,7 +314,31 @@
                         </div>
                     </div>
                 </div>
-        
+                <!-- 카드 디테일 모달창 + 댓글 -->
+                <div class="modal fade" id="detailCardModal" tabindex="-1" aria-labelledby="detailCardModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="detailCardTitle"></h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="detailCardForm" value="">
+                                    <div class="mb-3">
+                                        <label for="content" class="form-label"> 카드 설명 : </label>
+                                        <label id="detailcontent" rows="3"></label>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="deadline" class="form-label"> 마감일 : </label>
+                                        <label id="detaildeadline"></label>
+                                    </div>
+                                    <button type="button" class="btn btn-primary" id="createCommentbtn">댓글달기</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="commentBox"></div>
+                </div>
             </body>
 
 </body>
