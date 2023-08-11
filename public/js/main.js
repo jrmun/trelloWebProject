@@ -8,37 +8,7 @@ window.onload = function () {
     });
 
     checkLoggedInStatus();
-    loadUserBoards();
-
-    const loginButton = document.querySelector('#loginbtn');
-    const logoutButton = document.querySelector('#logoutbtn');
-    const addBoardButton = document.querySelector('#addBoardBtn');
-    const UserListBtn = document.querySelector('#UserListBtn');
-
-    // 로그인 모달 열기
-    loginButton.addEventListener('click', function () {
-        const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-        loginModal.show();
-    });
-
-    // 로그아웃 api 요청
-    logoutButton.addEventListener('click', function () {
-        fetch('/users/logout', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log('로그아웃 성공:', data);
-                alert('로그아웃 되었습니다.');
-                location.reload();
-            })
-            .catch((error) => {
-                console.error('로그아웃 실패:', error);
-            });
-    });
+    loadAllBoards();
 
     // 회원가입 모달 열기
     const signupButton = document.querySelector('.btn-light');
@@ -96,6 +66,13 @@ window.onload = function () {
             });
     });
 
+    // 로그인 모달 열기
+    const loginButton = document.querySelector('#loginbtn');
+    loginButton.addEventListener('click', function () {
+        const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+        loginModal.show();
+    });
+
     // 로그인 api 요청
     const loginForm = document.getElementById('loginForm');
     loginForm.addEventListener('submit', function (event) {
@@ -128,7 +105,28 @@ window.onload = function () {
             });
     });
 
+    // 로그아웃 api 요청
+    const logoutButton = document.querySelector('#logoutbtn');
+    logoutButton.addEventListener('click', function () {
+        fetch('/users/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('로그아웃 성공:', data);
+                alert('로그아웃 되었습니다.');
+                location.reload();
+            })
+            .catch((error) => {
+                console.error('로그아웃 실패:', error);
+            });
+    });
+
     // 보드 추가 모달 열기
+    const addBoardButton = document.querySelector('#addBoardBtn');
     addBoardButton.addEventListener('click', function () {
         const addBoardModal = new bootstrap.Modal(document.getElementById('addBoardModal'));
         addBoardModal.show();
@@ -227,7 +225,7 @@ function loadUserBoards() {
                 // 조회한 보드 정보를 드롭다운 항목으로 추가
                 data.data.forEach((board) => {
                     const dropdownItem = document.createElement('li');
-                    dropdownItem.innerHTML = `<a class="dropdown-item" href="#" data-boardid="${board.board_id}">${board.board_id}: ${board.board_name}</a>`;
+                    dropdownItem.innerHTML = `<a class="dropdown-item" href="#" data-boardid="${board.board_id}">${board.board_name}</a>`;
                     dropdownMenu.appendChild(dropdownItem);
                 });
 
@@ -250,6 +248,51 @@ function loadUserBoards() {
         .catch((error) => {
             console.error('보드 조회 실패:', error);
         });
+}
+
+function loadInvitedBoards() {
+    fetch('/boards/invited', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data);
+
+            if (data.data) {
+                const boardDropdown = document.querySelector('#boardDropdown');
+                const dropdownMenu = boardDropdown.nextElementSibling;
+
+                // 초대받은 보드 정보를 드롭다운 항목으로 추가
+                data.data.forEach((board) => {
+                    const dropdownItem = document.createElement('li');
+                    dropdownItem.innerHTML = `<a class="dropdown-item" href="#" data-boardid="${board.Board.board_id}">${board.Board.board_name}</a>`;
+                    dropdownMenu.appendChild(dropdownItem);
+                });
+
+                // 새로 추가된 보드 목록 선택 이벤트 처리
+                const boardDropdownItems = document.querySelectorAll('.dropdown-item');
+                boardDropdownItems.forEach((item) => {
+                    item.addEventListener('click', function (event) {
+                        const selectedBoardId = item.getAttribute('data-boardid');
+                        if (selectedBoardId) {
+                            navigateToBoardPage(selectedBoardId);
+                        }
+                    });
+                });
+            }
+        })
+        .catch((error) => {
+            console.error('초대받은 보드 조회 실패:', error);
+        });
+}
+
+// 사용자가 만든 보드와 초대받은 보드를 모두 로드하는 함수
+function loadAllBoards() {
+    loadUserBoards();
+    loadInvitedBoards();
 }
 
 // 보드 페이지로 이동
