@@ -57,13 +57,13 @@ class CardService {
         return new ServiceReturn('카드 정보 수정이 정상적으로 완료되었습니다.', 200);
     };
 
-    movecolumn = async ({ user_id, column_id, card_id }) => {
+    movecolumn = async ({ column_name, card_id, user_id }) => {
         const findCardId = await this.cardRepository.cardFindOne(card_id);
         if (!findCardId) throw new CustomError('해당하는 카드는 존재하지 않습니다.', 403);
 
         if (!user_id === findCardId.user_id) throw new CustomError('작성한 사용자가 아닙니다.', 403);
 
-        await this.cardRepository.movecolumn({ card_id, column_id });
+        await this.cardRepository.movecolumn({ column_name, card_id });
         return new ServiceReturn('카드의 컬럼 이동이 완료되었습니다.', 200);
     };
 

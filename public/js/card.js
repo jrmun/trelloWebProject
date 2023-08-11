@@ -202,14 +202,14 @@ function renderColumnData(data) {
             });
             //컬럼 이동 api
             movecolumnbtn.addEventListener('click', function () {
-                var columnid = prompt('이동할 칼럼의 번호를 입력해주세요' + '');
-                if (columnid) {
+                var column_name = prompt('이동할 칼럼의 번호를 입력해주세요' + '');
+                if (column_name) {
                     fetch(`cards/${card_id}/movecolumn`, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ column_id: columnid }),
+                        body: JSON.stringify({ column_name: column_name }),
                     })
                         .then((response) => response.json())
                         .then((data) => {
