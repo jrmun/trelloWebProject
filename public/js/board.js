@@ -4,7 +4,7 @@ window.onload = function () {
 
     if (boardId) {
         loadBoardContent(boardId);
-        loadCardItem(boardId);
+        loadColumnContent(boardId);
     }
 
     // 로고 누르면 메인페이지로 이동
@@ -105,6 +105,43 @@ window.onload = function () {
             });
     });
 
+    const addColumnButton = document.querySelector('#addColumnBtn');
+
+    // 칼럼 추가 모달 열기
+    addColumnButton.addEventListener('click', function () {
+        const addColumnModal = new bootstrap.Modal(document.getElementById('addColumnModal'));
+        addColumnModal.show();
+    });
+
+    // 칼럼추가 api 요청
+    const addColumnForm = document.getElementById('addColumnForm');
+    addColumnForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const columnName = document.getElementById('columnAddName').value;
+
+        const formData = {
+            column_name: columnName,
+        };
+
+        fetch(`/board/${boardId}/column`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('칼럼 생성 성공:', data);
+                alert('칼럼 생성되었습니다.');
+                location.reload();
+            })
+            .catch((error) => {
+                console.error('칼럼생성 실패:', error);
+                alert('칼럼생성에 실패하였습니다.');
+            });
+    });
     // 참여자 목록 버튼 클릭 시 유저 목록 모달 열기
     const UserListBtn = document.querySelector('#UserListBtn');
 
