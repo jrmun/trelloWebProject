@@ -16,20 +16,10 @@ class CommentsController {
         }
     };
 
-    getComments = async (req, res, next) => {
-        try {
-            const { content } = await this.commentsService.findAllComment();
-
-            res.status(200).json({ data: content });
-        } catch (error) {
-            res.status(500).json({ message: error.message });
-        }
-    };
-
     getComment = async (req, res, next) => {
         try {
             const { card_id } = req.params;
-            const { data } = await this.commentsService.findOneComment({ card_id });
+            const { data } = await this.commentsService.findAllComment({ card_id });
             res.status(200).json({ data: data });
         } catch (error) {
             console.log(error);
@@ -54,7 +44,6 @@ class CommentsController {
         try {
             const { comment_id } = req.params;
             const { user_id } = res.locals.user;
-            console.log(comment_id);
             await this.commentsService.deleteComment(user_id, comment_id);
 
             res.status(200).json({ message: '댓글 삭제 성공.' });

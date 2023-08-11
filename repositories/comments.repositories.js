@@ -6,11 +6,11 @@ class CommentsRepository {
         return await Comment.create({ user_id, card_id, content });
     };
 
-    findAllComment = async () => {
-        return await Comment.findAll();
+    findOneComment = async (comment_id) => {
+        return await Comment.findOne({ where: { comment_id: comment_id } });
     };
 
-    findOneComment = async ({ card_id }) => {
+    findAllComment = async ({ card_id }) => {
         return await Comment.findAll({
             where: { card_id: card_id },
             include: [{ model: User }],

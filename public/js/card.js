@@ -202,14 +202,15 @@ function renderColumnData(data) {
             });
             //컬럼 이동 api
             movecolumnbtn.addEventListener('click', function () {
-                var column_name = prompt('이동할 칼럼의 번호를 입력해주세요' + '');
+                const board_id = data.data[0].board_id;
+                var column_name = prompt('이동할 칼럼의 이름을 입력해주세요' + '');
                 if (column_name) {
                     fetch(`cards/${card_id}/movecolumn`, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ column_name: column_name }),
+                        body: JSON.stringify({ column_name: column_name, board_id: board_id }),
                     })
                         .then((response) => response.json())
                         .then((data) => {
@@ -222,7 +223,7 @@ function renderColumnData(data) {
                             alert('칼럼 이동동에 실패했습니다.');
                         });
                 } else {
-                    alert('칼럼 번호를 입력해주세요.');
+                    alert('칼럼 이름을 입력해주세요.');
                 }
             });
         });
