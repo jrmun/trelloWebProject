@@ -206,8 +206,6 @@ function loadBoardContent(boardId) {
 }
 
 function renderBoardData(data) {
-    // console.log(data);
-
     // 보드 이름, 설명, 만든 날짜와 업데이트 날짜를 화면에 표시
     const boardNameElement = document.getElementById('boardName');
     const boardDescriptionElement = document.getElementById('boardDescription');
@@ -280,8 +278,6 @@ function loadInvitedBoards() {
     })
         .then((response) => response.json())
         .then((data) => {
-            // console.log(data);
-
             if (data.data) {
                 const boardDropdown = document.querySelector('#boardDropdown');
                 const dropdownMenu = boardDropdown.nextElementSibling;
