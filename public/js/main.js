@@ -233,11 +233,7 @@ function loadUserBoards() {
                 const boardDropdownItems = document.querySelectorAll('.dropdown-item');
                 boardDropdownItems.forEach((item) => {
                     item.addEventListener('click', function (event) {
-                        console.log('click');
-
                         const selectedBoardId = item.getAttribute('data-boardid');
-                        console.log(selectedBoardId);
-
                         if (selectedBoardId) {
                             navigateToBoardPage(selectedBoardId);
                         }
@@ -250,6 +246,7 @@ function loadUserBoards() {
         });
 }
 
+// 초대된 보드 정보조회 및 드롭다운 업데이트
 function loadInvitedBoards() {
     fetch('/boards/invited', {
         method: 'GET',
@@ -259,8 +256,6 @@ function loadInvitedBoards() {
     })
         .then((response) => response.json())
         .then((data) => {
-            console.log(data);
-
             if (data.data) {
                 const boardDropdown = document.querySelector('#boardDropdown');
                 const dropdownMenu = boardDropdown.nextElementSibling;
@@ -268,7 +263,7 @@ function loadInvitedBoards() {
                 // 초대받은 보드 정보를 드롭다운 항목으로 추가
                 data.data.forEach((board) => {
                     const dropdownItem = document.createElement('li');
-                    dropdownItem.innerHTML = `<a class="dropdown-item" href="#" data-boardid="${board.Board.board_id}">${board.Board.board_name}</a>`;
+                    dropdownItem.innerHTML = `<a class="dropdown-item" href="#" data-boardid="${board.board_id}">${board.Board.board_name}</a>`;
                     dropdownMenu.appendChild(dropdownItem);
                 });
 
