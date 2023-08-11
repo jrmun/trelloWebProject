@@ -9,8 +9,6 @@ class ColumnController {
             const { column_name } = req.body;
             const user_id = res.locals.user.user_id;
             const { board_id } = req.params;
-            console.log(column_name);
-
             const columnData = await this.columnService.createColumn({ column_name, user_id, board_id });
             res.status(201).json({ data: columnData });
         } catch (error) {
@@ -22,7 +20,8 @@ class ColumnController {
     //칼럼 조회
     getColumn = async (req, res, next) => {
         try {
-            const columnData = await this.columnService.getColumn();
+            const { board_id } = req.params;
+            const columnData = await this.columnService.getColumn(board_id);
             res.status(200).json({ data: columnData });
         } catch (error) {
             if (error.status) return res.status(error.status).json({ message: error.message });

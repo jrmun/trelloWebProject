@@ -1,4 +1,4 @@
-const { Card, CardInfo, User, sequelize } = require('../models');
+const { Card, CardInfo, User, sequelize, Column } = require('../models');
 const { Op } = require('sequelize');
 
 class CardRepository {
@@ -18,28 +18,19 @@ class CardRepository {
     };
 
     createCard = async ({ user_id, column_id, title, content, color, deadline }) => {
-        const cardList = await CardInfo.findAll();
-        if (cardList) {
-            const maxCardPosition = await CardInfo.max('position');
-            const position = maxCardPosition + 1;
-            return await sequelize.transaction(async (transaction) => {
-                const cardCreate = await Card.create({ user_id, column_id }, { transaction });
-                await CardInfo.create({ card_id: cardCreate.card_id, title, content, color, position, deadline }, { transaction });
-            });
-        } else {
-            return await sequelize.transaction(async (transaction) => {
-                const cardCreate = await Card.create({ user_id, column_id }, { transaction });
-                await CardInfo.create({ card_id: cardCreate.card_id, title, content, color, deadline }, { transaction });
-            });
-        }
+        return await sequelize.transaction(async (transaction) => {
+            const cardCreate = await Card.create({ user_id, column_id }, { transaction });
+            await CardInfo.create({ card_id: cardCreate.card_id, title, content, position: 1, color, deadline }, { transaction });
+        });
     };
 
     updateCard = async ({ card_id, title, content, color, deadline }) => {
         await CardInfo.update({ title, content, color, deadline }, { where: { card_id: card_id } });
     };
 
-    movecolumn = async ({ card_id, column_id }) => {
-        await Card.update({ column_id }, { where: { card_id: card_id } });
+    movecolumn = async ({ column_name, card_id }) => {
+        const column = await Column.findOne({ where: { column_name: column_name } });
+        await Card.update({ column_id: column.column_id }, { where: { card_id: card_id } });
     };
 
     selectworker = async ({ card_id, user_id }) => {
