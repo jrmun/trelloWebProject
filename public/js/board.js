@@ -30,7 +30,7 @@ window.onload = function () {
             .then((data) => {
                 console.log('로그아웃 성공:', data);
                 alert('로그아웃 되었습니다.');
-                location.reload();
+                window.location.href = 'index.html';
             })
             .catch((error) => {
                 console.error('로그아웃 실패:', error);
