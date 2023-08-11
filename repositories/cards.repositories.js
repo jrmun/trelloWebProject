@@ -48,13 +48,6 @@ class CardRepository {
     };
 
     moveposition = async ({ card_id, position }) => {
-        const card = await CardInfo.findOne({ where: { position: position } });
-        const newcard = await CardInfo.findOne({ where: { card_id: card_id } });
-        if (card) {
-            const cardPosition = newcard.position;
-            await CardInfo.update({ position }, { where: { card_id: card_id } });
-            return await CardInfo.update({ position: cardPosition }, { where: { card_id: card.card_id } });
-        }
         return await CardInfo.update({ position }, { where: { card_id: card_id } });
     };
 

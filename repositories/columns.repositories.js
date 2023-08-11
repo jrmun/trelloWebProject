@@ -29,6 +29,13 @@ class ColumnRepository {
     };
 
     moveColumn = async ({ column_id, position }) => {
+        const column = await Column.findOne({ where: { position: position } });
+        const newcolumn = await Column.findOne({ where: { column_id: column_id } });
+        if (column) {
+            const columnPosition = newcolumn.position;
+            await Column.update({ position }, { where: { column_id: column_id } });
+            return await Column.update({ position: columnPosition }, { where: { column_id: column.column_id } });
+        }
         return await Column.update({ position }, { where: { column_id: column_id } });
     };
 
