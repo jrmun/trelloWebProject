@@ -166,6 +166,24 @@ window.onload = function () {
                 alert('보드생성에 실패하였습니다.');
             });
     });
+
+    // 내 정보 버튼 클릭 시 마이 페이지로 이동
+    const myInfoButton = document.querySelector('#myInfoBtn');
+    myInfoButton.addEventListener('click', function () {
+        fetch('/users/me', {
+            method: 'GET',
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data) {
+                    const userId = data.data.user_id;
+                    navigateToMyInfoPage(userId);
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    });
 };
 
 // 사용자 정보 확인하여 로그인 상태에 따라 버튼 표시
@@ -180,6 +198,7 @@ function checkLoggedInStatus() {
                 document.querySelector('#logoutbtn').style.display = 'block';
                 document.querySelector('#boardDropdown').style.display = 'block';
                 document.querySelector('#addBoardBtn').style.display = 'block';
+                document.querySelector('#myInfoBtn').style.display = 'block';
                 document.querySelector('#loginbtn').style.display = 'none';
                 document.querySelector('#signupbtn').style.display = 'none';
             } else {
@@ -188,6 +207,7 @@ function checkLoggedInStatus() {
                 document.querySelector('#logoutbtn').style.display = 'none';
                 document.querySelector('#boardDropdown').style.display = 'none';
                 document.querySelector('#addBoardBtn').style.display = 'none';
+                document.querySelector('#myInfoBtn').style.display = 'none';
             }
         })
         .catch((error) => {
@@ -293,4 +313,9 @@ function loadAllBoards() {
 // 보드 페이지로 이동
 function navigateToBoardPage(selectedBoard) {
     window.location.href = `board.html?id=${selectedBoard}`;
+}
+
+// 마이 페이지로 이동
+function navigateToMyInfoPage(userId) {
+    window.location.href = `userInfo.html?id=${userId}`;
 }
