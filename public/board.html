@@ -65,32 +65,32 @@
             }
         </style>
 
-        <script src="./js/board.js"></script>
-        <!-- <script src="./js/board.js"></script> -->
-    </head>
-    <body>
-        <header class="bg-light">
-            <div class="container header-container">
-                <h1 class="text-center">
-                    <span class="text-warning font-weight-bold text-uppercase trello-logo">trolley</span>
-                </h1>
-                <button type="button" class="btn btn-light" id="logoutbtn">로그아웃</button>
-            </div>
-            <div class="dropdown">
-                <button
-                    class="btn btn-link text-secondary dropdown-toggle dropdown-button"
-                    type="button"
-                    id="boardDropdown"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                >
-                    Board
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="boardDropdown">
-                    <li><a class="dropdown-item" href="#">보드 1</a></li>
-                </ul>
-            </div>
-        </header>
+    <script src="./js/board.js"></script>
+    <script src="./js/card.js"></script>
+    <!-- <script src="./js/board.js"></script> -->
+</head>
+
+
+<body>
+    <header class="bg-light">
+        <div class="container header-container">
+            <h1 class="text-center">
+                <span class="text-warning font-weight-bold text-uppercase trello-logo">trolley</span>
+            </h1>
+            <button type="button" class="btn btn-light" id="logoutbtn">
+                로그아웃
+            </button>
+        </div>
+        <div class="dropdown">
+            <button class="btn btn-link text-secondary dropdown-toggle dropdown-button" type="button" id="boardDropdown"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Board
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="boardDropdown">
+                <li><a class="dropdown-item" href="#">보드 1</a></li>
+            </ul>
+        </div>
+    </header>
 
         <!-- 보드 페이지의 내용 -->
         <div class="container-fluid">
@@ -178,65 +178,145 @@
             </div>
         </div>
 
-        <!-- 유저 초대 모달 -->
-        <div class="modal fade" id="userInviteModal" tabindex="-1" aria-labelledby="addBoardModalLabel" aria-hidden="true">
+    <!-- 유저 초대 모달 -->
+    <div class="modal fade" id="userInviteModal" tabindex="-1" aria-labelledby="addBoardModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="userInviteModalLabel">유저 초대</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="userInviteForm">
+                        <div class="mb-3">
+                            <label for="inviteUserEmail" class="form-label">초대 유저 이메일</label>
+                            <input type="text" class="form-control" id="inviteUserEmail" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">초대하기</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- 칼럼 추가 모달 -->
+<div class="modal fade" id="addColumnModal" tabindex="-1" aria-labelledby="addColumnModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addColumnModalLabel">칼럼 추가</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addColumnForm">
+                    <div class="mb-3">
+                        <label for="columnAddName" class="form-label">칼럼 이름</label>
+                        <input type="text" class="form-control" id="columnAddName" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary">추가하기</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 칼럼 수정 모달 -->
+<div class="modal fade" id="editColumnModal" tabindex="-1" aria-labelledby="editColumnModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editColumnModalLabel">칼럼 수정</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editColumnForm">
+                    <div class="mb-3">
+                        <label for="columnEditName" class="form-label">칼럼 이름</label>
+                        <input type="text" class="form-control" id="columnEditName" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary">수정하기</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+        <!-- 카드 추가 모달 -->
+        <div class="modal fade" id="addCardModal" tabindex="-1" aria-labelledby="addCardModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="userInviteModalLabel">유저 초대</h5>
+                        <h5 class="modal-title" id="addCardModalLabel">카드 추가</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="userInviteForm">
+                        <form id="addCardForm">
                             <div class="mb-3">
-                                <label for="inviteUserEmail" class="form-label">초대 유저 이메일</label>
-                                <input type="text" class="form-control" id="inviteUserEmail" required />
+                                <label for="CardName" class="form-label">카드 이름</label>
+                                <input type="text" class="form-control" id="CardName" required />
                             </div>
-                            <button type="submit" class="btn btn-primary">초대하기</button>
+                            <div class="mb-3">
+                                <label for="color" class="form-label">배경 색상</label>
+                                <div class="input-group" style="height: 50px">
+                                    <input type="color" class="form-control" id="cardcreatecolor" required style="height: 100%; width: 50px; padding: 0" />
+                                    <span class="input-group-text" style="height: 100%; width: 50px; background-color: transparent; border: none">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="content" class="form-label">카드 설명</label>
+                                <textarea class="form-control" id="content" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="deadline" class="form-label">마감일 </label>
+                                <input type="date"  id="deadline"></input>
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="createCardBtn">추가하기</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- 칼럼 추가 모달 -->
-        <div class="modal fade" id="addColumnModal" tabindex="-1" aria-labelledby="addColumnModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="addColumnModalLabel">칼럼 추가</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="addColumnForm">
-                            <div class="mb-3">
-                                <label for="columnAddName" class="form-label">칼럼 이름</label>
-                                <input type="text" class="form-control" id="columnAddName" required />
+                <!-- 카드 수정 모달 -->
+                <div class="modal fade" id="updateCardModal" tabindex="-1" aria-labelledby="updateCardModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="updateCardModalLabel">카드 수정</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <button type="submit" class="btn btn-primary">추가하기</button>
-                        </form>
+                            <div class="modal-body">
+                                <form id="updateCardForm">
+                                    <div class="mb-3">
+                                        <label for="CardName" class="form-label">카드 이름</label>
+                                        <input type="text" class="form-control" id="updateCardName" required />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="color" class="form-label">배경 색상</label>
+                                        <div class="input-group" style="height: 50px">
+                                            <input type="color" class="form-control" id="cardupdatecolor" required style="height: 100%; width: 50px; padding: 0" />
+                                            <span class="input-group-text" style="height: 100%; width: 50px; background-color: transparent; border: none">
+                                                <i class="fas fa-chevron-down"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="content" class="form-label">카드 설명</label>
+                                        <textarea class="form-control" id="updatecontent" rows="3"></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="deadline" class="form-label">마감일 </label>
+                                        <input type="date"  id="updatedeadline"></input>
+                                    </div>
+                                    <button type="button" class="btn btn-primary" id="updatebtn">수정하기</button>
+                                    <button type="button" class="btn btn-primary" id="deletebtn">삭제하기</button>
+                                    <button type="button" class="btn btn-primary" id="movecolumnbtn">컬럼이동</button>
+                                  </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <!-- 칼럼 수정 모달 -->
-        <div class="modal fade" id="editColumnModal" tabindex="-1" aria-labelledby="editColumnModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="editColumnModalLabel">칼럼 수정</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="editColumnForm">
-                            <div class="mb-3">
-                                <label for="columnEditName" class="form-label">칼럼 이름</label>
-                                <input type="text" class="form-control" id="columnEditName" required />
-                            </div>
-                            <button type="submit" class="btn btn-primary">수정하기</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </body>
+        
+            </body>
+
+</body>
+
 </html>
