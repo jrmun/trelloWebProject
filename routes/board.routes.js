@@ -14,5 +14,6 @@ router.delete('/board/:boardId', auth, boardsController.deleteBoard);
 
 router.post('/board/:boardId/invite', auth, boardsController.inviteBoard);
 router.get('/board/:boardId/invite', auth, boardsController.getBoadUsers);
+router.get('/boards/invited', auth, boardsController.getInvitedBoards);
 
 module.exports = router;

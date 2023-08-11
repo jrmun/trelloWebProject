@@ -73,6 +73,19 @@ class BoardRepository {
 
         return BoadUsers;
     };
+
+    getInvitedBoards = async (user_id) => {
+        const InvitedBoards = await BoardUser.findAll({
+            where: { user_id: user_id },
+            include: [
+                {
+                    model: Board,
+                    attributes: ['board_name'],
+                },
+            ],
+        });
+        return InvitedBoards;
+    };
 }
 
 module.exports = BoardRepository;

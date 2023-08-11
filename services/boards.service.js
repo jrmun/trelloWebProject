@@ -53,6 +53,12 @@ class BoardService {
         if (!getBoadUsers) throw new Error("getBoadUsers don't exist");
         return getBoadUsers;
     };
+
+    getInvitedBoards = async (user) => {
+        const InvitedBoards = await this.boardRepository.getInvitedBoards(user.user_id);
+        if (!InvitedBoards) throw new Error("InvitedBoards don't exist");
+        return InvitedBoards;
+    };
 }
 
 module.exports = BoardService;
