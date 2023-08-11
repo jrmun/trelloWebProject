@@ -36,7 +36,7 @@ window.onload = function () {
             });
     });
 
-    loadUserBoards();
+    loadAllBoards();
 
     // 보드 수정
     const EditBoardButton = document.querySelector('#EditBoardbtn');
@@ -168,6 +168,8 @@ function loadBoardContent(boardId) {
 }
 
 function renderBoardData(data) {
+    // console.log(data);
+
     // 보드 이름, 설명, 만든 날짜와 업데이트 날짜를 화면에 표시
     const boardNameElement = document.getElementById('boardName');
     const boardDescriptionElement = document.getElementById('boardDescription');
@@ -228,6 +230,52 @@ function loadUserBoards() {
         .catch((error) => {
             console.error('보드 조회 실패:', error);
         });
+}
+
+// 초대된 보드 정보조회 및 드롭다운 업데이트
+function loadInvitedBoards() {
+    fetch('/boards/invited', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            // console.log(data);
+
+            if (data.data) {
+                const boardDropdown = document.querySelector('#boardDropdown');
+                const dropdownMenu = boardDropdown.nextElementSibling;
+
+                // 초대받은 보드 정보를 드롭다운 항목으로 추가
+                data.data.forEach((board) => {
+                    const dropdownItem = document.createElement('li');
+                    dropdownItem.innerHTML = `<a class="dropdown-item" href="#" data-boardid="${board.board_id}">${board.Board.board_name}</a>`;
+                    dropdownMenu.appendChild(dropdownItem);
+                });
+
+                // 새로 추가된 보드 목록 선택 이벤트 처리
+                const boardDropdownItems = document.querySelectorAll('.dropdown-item');
+                boardDropdownItems.forEach((item) => {
+                    item.addEventListener('click', function (event) {
+                        const selectedBoardId = item.getAttribute('data-boardid');
+                        if (selectedBoardId) {
+                            navigateToBoardPage(selectedBoardId);
+                        }
+                    });
+                });
+            }
+        })
+        .catch((error) => {
+            console.error('초대받은 보드 조회 실패:', error);
+        });
+}
+
+// 사용자가 만든 보드와 초대받은 보드를 모두 로드하는 함수
+function loadAllBoards() {
+    loadUserBoards();
+    loadInvitedBoards();
 }
 
 // 보드 페이지로 이동
