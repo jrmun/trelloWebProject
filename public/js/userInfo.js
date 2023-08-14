@@ -1,3 +1,5 @@
+const { response } = require('express');
+
 window.onload = function () {
     const urlParams = new URLSearchParams(window.location.search);
     const userId = urlParams.get('id');
@@ -35,6 +37,7 @@ window.onload = function () {
 
     // 유저 정보 수정
     const editProfileBtn = document.querySelector('#editProfileBtn');
+
     // 유저 정보 수정 모달 열기
     editProfileBtn.addEventListener('click', function () {
         const EditUserInfoModal = new bootstrap.Modal(document.getElementById('EditUserInfoModal'));
