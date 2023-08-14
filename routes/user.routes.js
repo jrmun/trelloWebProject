@@ -16,7 +16,7 @@ router.get('/users/userinfo', auth, usersController.getUser);
 // 사용자 정보 수정
 router.put('/users/userinfo', auth, usersController.updateUser);
 // // 사용자 정보 삭제(회원탈퇴)
-router.delete('/users/signout', auth, usersController.deleteUser);
+router.delete('/users/userinfo', auth, usersController.deleteUser);
 
 router.post('/users/logout', (req, res) => {
     res.clearCookie('authorization', { httpOnly: true, path: '/' });
