@@ -43,30 +43,33 @@
             .ml-auto {
                 margin-left: auto;
             }
+
+            .bg-pink {
+                background-color: pink;
+            }
         </style>
-
-<script src="./js/comment.js"></script>
-
-    <body>
+        <script src="./js/comment.js"></script>
+    </head>
+    <body class="bg-pink">
         <header class="bg-light">
             <div class="container header-container">
                 <h1 class="text-center">
                     <span class="text-warning font-weight-bold text-uppercase trello-logo">trolley</span>
                 </h1>
             </div>
-        </header>
+    </header>
 
-        <div class="container col-xxl-8 px-4 py-5">
-            <div class="card storeCard m-3" id="columnitem">
-                <div class="card-body">
-                  <h5 class="card-title" id="detailCardTitle">Card with an image on top</h5>
-                  <p class="card-text" id= "detailcontent">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <p class="card-text" id= "detaildeadline">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>
-              </div>
-              <button type="submit" class="btn btn-primary" id="createcommentModal">댓글 작성</button>
+    <div class="container col-xxl-8 px-4 py-5">
+        <div class="card storeCard m-3 w-50" id="columnitem">
+            <div class="card-body">
+                <h5 class="card-title " id="detailCardTitle">Card with an image on top</h5>
+                <p class="card-text" id= "detailcontent">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <p class="card-text" id= "detaildeadline">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
         </div>
-       
+        <button type="submit" class="btn btn-primary" id="createcommentModal">댓글 작성</button>
+    </div>
+
         <div id="commentBox"></div>
         <!-- 카드 추가 모달 -->
         <div class="modal fade" id="addcommentModal" tabindex="-1" aria-labelledby="addcommentModalLabel" aria-hidden="true">
